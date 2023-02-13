@@ -1,29 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
 
 
 function Timer(props) {
-    
-    // const reset = props.reset;
-    const [time, setTime] = useState(0);
-    
-
-
+    const context = useContext(props.context);
 
     useEffect(() => {
         let interval = null;
-        if (props.isActive) {
+        if (context.timer.timeIsActive) {
             interval = setInterval(() => {
-                setTime(time => time + 100);
+                context.setTimerState({...context.timer, time: context.timer.time + 100});
             }, 100);
-        } else if (!props.isActive) {
+        } else if (!context.timer.timeIsActive && context.timer.time !== 0) {
             clearInterval(interval);
         }
         return () => clearInterval(interval);
-    }, [props.isActive, time]);
+    }, [context, context.timer.timeIsActive, context.timer.time]);
+    
 
     return (
         <div className="timer">
-            <div className="time">{timeToMsms(time)}</div>
+            <div className="time">{timeToMsms(context.timer.time)}</div>
+            <button onClick={() => context.setTimer("resetTime")}>Reset</button>
+            {/* <button onClick={() => context.setTimer("playPauseTime")}>Start/Stop</button> */}
         </div>
     );
 }

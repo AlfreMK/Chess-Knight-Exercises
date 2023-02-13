@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import PropTypes from "prop-types";
 
 // import { Chess } from "chess.js";
@@ -43,7 +43,6 @@ class ChessPuzzle extends Component {
     squaresToGo: SQUARES_TO_GO,
     actualSquareToGoIndex: 1,
     squareStyles: {},
-    hasReseted: true,
   };
 
 
@@ -55,13 +54,14 @@ class ChessPuzzle extends Component {
   }
 
   componentDidUpdate(){
-    if (!this.props.timeIsActive && this.state.hasReseted){
+    if (!this.props.timeIsActive && this.props.hasReseted){
         this.reset();
-        this.setState({hasReseted: false});
+        this.props.context.setTimerState({...this.props.context.timer, hasReseted: false});
+        
     }
-    if (this.hasEnded()){
-        this.props.setTimeIsActive(false);
-        this.setState({hasReseted: true});
+    if (this.hasEnded() && !this.props.hasEnded){
+        this.props.context.setTimer("playPauseTime");
+        this.props.context.setTimer("endGame");
     }
     
   }
@@ -75,7 +75,7 @@ class ChessPuzzle extends Component {
         position: {...this.state.squarePawns, "a1": "wN",},
         squareOfKnight: "a1",
         actualSquareToGoIndex: 1,
-        squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
+        squareStyles: { [this.state.squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
     });
   }
 
@@ -97,6 +97,10 @@ class ChessPuzzle extends Component {
             actualSquareToGo: this.state.squaresToGo[this.state.actualSquareToGoIndex + 1],
             squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex + 1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
         });
+      };
+      
+      if (!this.props.timeIsActive){
+        this.props.context.setTimer("playPauseTime");
       }
       }
       else {
@@ -105,21 +109,14 @@ class ChessPuzzle extends Component {
     };
 
   onDrop = ({ sourceSquare, targetSquare }) => {
-    if (!this.props.timeIsActive){
-      this.props.setTimeIsActive(true);
-    }
     this.moveTheKnight(sourceSquare, targetSquare);
     
   };
 
   onSquareClick = square => {
-    if (!this.props.timeIsActive){
-      this.props.setTimeIsActive(true);
-    }
     this.moveTheKnight(this.state.squareOfKnight, square);
   };
 
-    // this.props.setTimeIsActive(true);
 
 
 
@@ -148,10 +145,14 @@ const moveLikesKnight = (sourceSquare, targetSquare) => {
 };
 
 export default function ChessPuzzleBoard(props) {
+  const context = useContext(props.context);
   return (
     <ChessPuzzle
-      timeIsActive={props.timeIsActive}
-      setTimeIsActive={props.setTimeIsActive}
+      context={context}
+      timeIsActive={context.timer.timeIsActive}
+      hasReseted={context.timer.hasReseted}
+      hasEnded={context.timer.hasEnded}
+      penalizedMode={context.timer.penalizedMode}
       >
       {({
         position,

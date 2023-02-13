@@ -1,37 +1,74 @@
-import { useState } from "react";
+import { useState, createContext  } from "react";
 import ChessPuzzleBoard from './integrations/ChessPuzzle';
 import styled from 'styled-components';
 import Rules from "./components/Rules";
 import Timer from "./components/Timer";
 import Switch from '@mui/material/Switch';
 
-function App() {
-  const [penalizationMode, setPenalizationMode] = useState(false);
-  const [timeIsActive, setTimeIsActive] = useState(false);
 
+const TimerContext = createContext();
+
+function App() {
+  const [timerState, setTimerState] = useState({
+    countPenalization: 0,
+    modePenalization: false,
+    time: 0,
+    timeIsActive: false,
+    hasReseted: true,
+    hasEnded: false,
+  })
+
+  const setTimer = (option) => {
+    switch (option) {
+    case 'playPauseTime':
+      setTimerState({...timerState, timeIsActive: !timerState.timeIsActive, hasReseted: false, hasEnded: false});
+      break;
+    case 'resetTime':
+      setTimerState({...timerState, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
+      break;
+    case 'addPenalization':
+      setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
+      break;
+    case 'resetPenalization':
+      setTimerState({...timerState, countPenalization: 0});
+      break;
+    case 'resetAll':
+      setTimerState({...timerState, countPenalization: 0, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
+      break;
+    case 'changeMode':
+      setTimerState({...timerState, modePenalization: !timerState.modePenalization});
+      break;
+    case 'endGame':
+      setTimerState({...timerState, timeIsActive: false, hasEnded: true});
+      break;
+    default:
+      break;
+    }
+  }
+  
 
 
   return (
     <CenterContainer>
       <h2>Chess Knight Exercises</h2>
     <Container>
+      <TimerContext.Provider value={{
+            timer: timerState,
+            setTimer: setTimer,
+            setTimerState: setTimerState,
+            }}>
         <LeftContainer>
           <Rules />
           <SwitchContainer>
             <SpanSwitch>Penalization Mode</SpanSwitch>
-            <Switch onClick={() => setPenalizationMode(!penalizationMode)} />
+            <Switch onClick={() => setTimer("changeMode")} />
           </SwitchContainer>
-          <Timer 
-            isActive={timeIsActive}
-            />
-
+            <Timer context={TimerContext}/>
         </LeftContainer>
         <BorderChessBoard>
-          <ChessPuzzleBoard
-            timeIsActive={timeIsActive}
-            setTimeIsActive={setTimeIsActive}
-            />
+          <ChessPuzzleBoard context={TimerContext}/>
         </BorderChessBoard>
+      </TimerContext.Provider>
     </Container>
     <Footer>
       Made by <Link href="https://github.com/AlfreMK"> Alfredo Medina</Link>.
