@@ -3,42 +3,29 @@ import React, { useState, useEffect } from 'react';
 
 function Timer(props) {
     
-        const [time, setTime] = useState(0);
-        const [isActive, setIsActive] = useState(false);
+    // const reset = props.reset;
+    const [time, setTime] = useState(0);
     
-        function toggle() {
-            setIsActive(!isActive);
+
+
+
+    useEffect(() => {
+        let interval = null;
+        if (props.isActive) {
+            interval = setInterval(() => {
+                setTime(time => time + 100);
+            }, 100);
+        } else if (!props.isActive) {
+            clearInterval(interval);
         }
-    
-        function reset() {
-            setTime(0);
-            setIsActive(false);
-        }
-    
-    
-        useEffect(() => {
-            let interval = null;
-            if (isActive) {
-                interval = setInterval(() => {
-                    setTime(time => time + 100);
-                }, 100);
-            } else if (!isActive) {
-                clearInterval(interval);
-            }
-            return () => clearInterval(interval);
-        }, [isActive, time]);
-    
-        return (
-            <div className="timer">
-                <div className="time">{timeToMsms(time)}</div>
-                <div className="row">
-                    <button onClick={toggle} className={`button button-primary button-primary-${isActive ? 'active' : 'inactive'}`}>
-                        {isActive ? 'Pause' : 'Start'}
-                    </button>
-                    <button onClick={reset} className="button">Reset</button>
-                </div>
-            </div>
-        );
+        return () => clearInterval(interval);
+    }, [props.isActive, time]);
+
+    return (
+        <div className="timer">
+            <div className="time">{timeToMsms(time)}</div>
+        </div>
+    );
 }
 
 

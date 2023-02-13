@@ -43,6 +43,7 @@ class ChessPuzzle extends Component {
     squaresToGo: SQUARES_TO_GO,
     actualSquareToGoIndex: 1,
     squareStyles: {},
+    hasReseted: true,
   };
 
 
@@ -53,50 +54,73 @@ class ChessPuzzle extends Component {
       });
   }
 
+  componentDidUpdate(){
+    if (!this.props.timeIsActive && this.state.hasReseted){
+        this.reset();
+        this.setState({hasReseted: false});
+    }
+    if (this.hasEnded()){
+        this.props.setTimeIsActive(false);
+        this.setState({hasReseted: true});
+    }
+    
+  }
+
+  hasEnded = () => {
+    return this.state.actualSquareToGoIndex === this.state.squaresToGo.length;
+  }
+
+  reset = () => {
+    this.setState({
+        position: {...this.state.squarePawns, "a1": "wN",},
+        squareOfKnight: "a1",
+        actualSquareToGoIndex: 1,
+        squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
+    });
+  }
+
   allowDrag = ({ piece }) => {
     // we can only pick up the white knight
     return piece === "wN";
     };
 
 
-  rapportEnabled = (boolean) => {
-    this.setState({rapportEnabled: boolean});
-    };
-
-    updateSquareToGo = () => {
-        this.setState({
+  moveTheKnight = (sourceSquare, targetSquare) => {
+    if (moveLikesKnight(sourceSquare, targetSquare) && this.state.squaresToGo.includes(targetSquare)) {
+      this.setState({
+          position: {...this.state.squarePawns, [targetSquare]: "wN",},
+          squareOfKnight: targetSquare,
+      });
+      if (targetSquare === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
+          this.setState({
             actualSquareToGoIndex: this.state.actualSquareToGoIndex + 1,
             actualSquareToGo: this.state.squaresToGo[this.state.actualSquareToGoIndex + 1],
             squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex + 1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
         });
-    }
+      }
+      }
+      else {
+          return;
+      }
+    };
 
   onDrop = ({ sourceSquare, targetSquare }) => {
-    // see if the move is legal
-    if (moveLikesKnight(sourceSquare, targetSquare) && this.state.squaresToGo.includes(targetSquare)) {
-        this.setState({
-            position: {...this.state.squarePawns, [targetSquare]: "wN",},
-            squareOfKnight: targetSquare,
-        });
-        if (targetSquare === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
-            this.updateSquareToGo();
-        }
+    if (!this.props.timeIsActive){
+      this.props.setTimeIsActive(true);
     }
-    else {
-        return;
-    }
+    this.moveTheKnight(sourceSquare, targetSquare);
+    
   };
 
   onSquareClick = square => {
-    if (moveLikesKnight(this.state.squareOfKnight, square) && this.state.squaresToGo.includes(square)) {
-        this.setState({
-            position: {...this.state.squarePawns, [square]: "wN",},
-            squareOfKnight: square,
-        });
-        if (square === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
-            this.updateSquareToGo();
-        }
-    }};
+    if (!this.props.timeIsActive){
+      this.props.setTimeIsActive(true);
+    }
+    this.moveTheKnight(this.state.squareOfKnight, square);
+  };
+
+    // this.props.setTimeIsActive(true);
+
 
 
   render() {
@@ -126,6 +150,8 @@ const moveLikesKnight = (sourceSquare, targetSquare) => {
 export default function ChessPuzzleBoard(props) {
   return (
     <ChessPuzzle
+      timeIsActive={props.timeIsActive}
+      setTimeIsActive={props.setTimeIsActive}
       >
       {({
         position,

@@ -6,6 +6,10 @@ import Timer from "./components/Timer";
 import Switch from '@mui/material/Switch';
 
 function App() {
+  const [penalizationMode, setPenalizationMode] = useState(false);
+  const [timeIsActive, setTimeIsActive] = useState(false);
+
+
 
   return (
     <CenterContainer>
@@ -15,13 +19,17 @@ function App() {
           <Rules />
           <SwitchContainer>
             <SpanSwitch>Penalization Mode</SpanSwitch>
-            <Switch ></Switch>
+            <Switch onClick={() => setPenalizationMode(!penalizationMode)} />
           </SwitchContainer>
-          <Timer />
+          <Timer 
+            isActive={timeIsActive}
+            />
 
         </LeftContainer>
         <BorderChessBoard>
           <ChessPuzzleBoard
+            timeIsActive={timeIsActive}
+            setTimeIsActive={setTimeIsActive}
             />
         </BorderChessBoard>
     </Container>

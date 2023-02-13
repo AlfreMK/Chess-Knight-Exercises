@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Rules(){
     return (
         <Container>
-            <Title>Move the knight to the highlighted square</Title>
+            <Title>Move the knight to the <Highlighted>highlighted square</Highlighted></Title>
             <span>The goal is to move the knight in order left to right, bottom to up, with the restriction 
                 that you can't move it to squares attacked or controlled by the black pieces.</span>
         </Container>
@@ -27,13 +27,10 @@ const Title = styled.h3`
     text-align: center;
 `;
 
-const Link = styled.a`
+const Highlighted = styled.span`
     color: #4183c4;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
     width: fit-content;
-    &:hover {
-        text-decoration: underline;
-    }
 `;
