@@ -1,14 +1,25 @@
 import { useState } from "react";
 import ChessPuzzleBoard from './integrations/ChessPuzzle';
 import styled from 'styled-components';
-
+import Rules from "./components/Rules";
+import Timer from "./components/Timer";
+import Switch from '@mui/material/Switch';
 
 function App() {
 
   return (
     <CenterContainer>
-      <h2>Chess</h2>
+      <h2>Chess Knight Exercises</h2>
     <Container>
+        <LeftContainer>
+          <Rules />
+          <SwitchContainer>
+            <SpanSwitch>Penalization Mode</SpanSwitch>
+            <Switch ></Switch>
+          </SwitchContainer>
+          <Timer />
+
+        </LeftContainer>
         <BorderChessBoard>
           <ChessPuzzleBoard
             />

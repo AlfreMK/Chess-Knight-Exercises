@@ -115,12 +115,8 @@ class ChessPuzzle extends Component {
 
 
 const moveLikesKnight = (sourceSquare, targetSquare) => {
-    const sourceSquareFile = sourceSquare[0];
-    const sourceSquareRank = sourceSquare[1];
-    const targetSquareFile = targetSquare[0];
-    const targetSquareRank = targetSquare[1];
-    const fileDifference = Math.abs(sourceSquareFile.charCodeAt(0) - targetSquareFile.charCodeAt(0));
-    const rankDifference = Math.abs(sourceSquareRank - targetSquareRank);
+    const fileDifference = Math.abs(sourceSquare[0].charCodeAt(0) - targetSquare[0].charCodeAt(0));
+    const rankDifference = Math.abs(sourceSquare[1] - targetSquare[1]);
     if ((fileDifference === 1 && rankDifference === 2) || (fileDifference === 2 && rankDifference === 1)) {
         return true;
     }
