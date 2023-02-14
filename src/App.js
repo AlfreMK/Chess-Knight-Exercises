@@ -6,6 +6,7 @@ import Timer from "./components/Timer";
 import { Switch, Tooltip, IconButton } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 import SelectExercise from "./components/SelectExercise";
+import exercises from "./exercises.json";
 
 const TimerContext = createContext();
 const ExerciseContext = createContext();
@@ -93,7 +94,7 @@ function App() {
               <Timer context={TimerContext} backgroundColor={timerColor}/>
             </LeftContainer>
             <BorderChessBoard>
-              <ChessPuzzleBoard context={TimerContext}/>
+              <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} />
             </BorderChessBoard>
           </TimerContext.Provider>
         </Container>

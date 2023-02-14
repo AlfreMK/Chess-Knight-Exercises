@@ -1,46 +1,27 @@
 import React, { Component, useContext } from "react";
 import PropTypes from "prop-types";
-
+import {
+	getSquarestoGo,
+	getAllPiecesExceptKnight,
+	moveLikesKnight,
+	updateKnightInPosition,
+	getSquareOfKnight,
+} from "./functions";
 // import { Chess } from "chess.js";
 import Chessboard from "chessboardjsx";
 
 
-const getSquarestoGo = (invalidSquares) => {
-    const squares = [];
-    for (let i = 1; i < 9; i++) {
-        for (let j = 1; j < 9; j++) {
-            const square = String.fromCharCode(96 + i) + j;
-            if (!invalidSquares.includes(square)) {
-                squares.push(square);
-            }
-        }
-    }
-    // sort squares by file and rank
-    // order by a1, b1, c1, d1, ..., h8, a2, ...
-    squares.sort((a, b) => {
-        if (a[1] === b[1]) {
-            return a.charCodeAt(0) - b.charCodeAt(0);
-        }
-        return a[1] - b[1];
-    });
 
-    return squares;
-};
-
-const SQUARE_PAWNS = {"c3": "bP", "c6": "bP", "f3": "bP", "f6": "bP"};
-const ATTACKED_SQUARES = ["b2", "d2", "b5", "d5", "e2", "e5", "g2", "g5"];
-const SQUARES_TO_GO = getSquarestoGo(ATTACKED_SQUARES.concat(Object.keys(SQUARE_PAWNS)));
 
 // code extracted and adapted from https://chessboardjsx.com/integrations/move-validation
 class ChessPuzzle extends Component {
   static propTypes = { children: PropTypes.func };
   state = {
-    position: {...SQUARE_PAWNS, "a1": "wN"},
-    squareOfKnight: "a1",
-    squarePawns: SQUARE_PAWNS,
-    attackedSquares: ATTACKED_SQUARES,
+    position: this.props.exercise.position,
+    squareOfKnight: getSquareOfKnight(this.props.exercise.position),
+    OtherPieces: getAllPiecesExceptKnight(this.props.exercise.position),
     // all squares except the attacked ones and squarepawns
-    squaresToGo: SQUARES_TO_GO,
+    squaresToGo: getSquarestoGo(this.props.exercise.position, this.props.exercise.ascendant),
     actualSquareToGoIndex: 1,
     squareStyles: {},
   };
@@ -48,9 +29,11 @@ class ChessPuzzle extends Component {
 
   componentDidMount() {
     // this.game = new Chess(this.state.fen);
+
     this.setState({
         squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
       });
+	
   }
 
   componentDidUpdate(){
@@ -72,8 +55,8 @@ class ChessPuzzle extends Component {
 
   reset = () => {
     this.setState({
-        position: {...this.state.squarePawns, "a1": "wN",},
-        squareOfKnight: "a1",
+        position: this.props.exercise.position,
+        squareOfKnight: getSquareOfKnight(this.props.exercise.position),
         actualSquareToGoIndex: 1,
         squareStyles: { [this.state.squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
     });
@@ -88,7 +71,7 @@ class ChessPuzzle extends Component {
   moveTheKnight = (sourceSquare, targetSquare) => {
     if (moveLikesKnight(sourceSquare, targetSquare) && this.state.squaresToGo.includes(targetSquare)) {
       this.setState({
-          position: {...this.state.squarePawns, [targetSquare]: "wN",},
+          position: updateKnightInPosition(this.props.exercise.position, targetSquare),
           squareOfKnight: targetSquare,
       });
       if (targetSquare === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
@@ -138,20 +121,12 @@ class ChessPuzzle extends Component {
 
 
 
-const moveLikesKnight = (sourceSquare, targetSquare) => {
-    const fileDifference = Math.abs(sourceSquare[0].charCodeAt(0) - targetSquare[0].charCodeAt(0));
-    const rankDifference = Math.abs(sourceSquare[1] - targetSquare[1]);
-    if ((fileDifference === 1 && rankDifference === 2) || (fileDifference === 2 && rankDifference === 1)) {
-        return true;
-    }
-    return false;
-};
-
 export default function ChessPuzzleBoard(props) {
   const context = useContext(props.context);
   return (
     <ChessPuzzle
       context={context}
+	  exercise={props.exercise}
       timeIsActive={context.timer.timeIsActive}
       hasReseted={context.timer.hasReseted}
       hasEnded={context.timer.hasEnded}

@@ -1,5 +1,5 @@
 {
-    "main": {
+    "0": {
         "position":{
             "a1": "wN",
             "c3": "bP",
@@ -7,14 +7,16 @@
             "f3": "bP",
             "f6": "bP"
         },
-        "squares_to_go": "all"
+        "squares_to_go": "all",
+        "ascendant": "true"
     },
     "1":{
         "position":{
-            "a1": "wN",
+            "h8": "wN",
             "d5": "bQ"
         },
-        "squares_to_go": "all"
+        "squares_to_go": "all",
+        "ascendant": "false"
     },
     "2":{
         "position":{
@@ -27,7 +29,8 @@
             "b5": "wP",
             "b6": "wP"
         },
-        "squares_to_go": "g8"
+        "squares_to_go": "g8",
+        "ascendant": "undefined"
     }
 
 
