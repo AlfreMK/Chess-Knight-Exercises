@@ -19,9 +19,9 @@ function Timer(props) {
     
 
     return (
-        <CenterContainer>
+        <CenterContainer style={{backgroundColor: props.backgroundColor || "#262421"}}>
             <DisplayTimer>{timeToMsms(context.timer.time)}</DisplayTimer>
-            <Button variant="outlined" onClick={() => context.setTimer("resetTime")}>Reset</Button>
+            <Button variant="outlined" onClick={() => context.setTimer("resetAll")}>Reset</Button>
         </CenterContainer>
     );
 }
@@ -50,7 +50,6 @@ const CenterContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #262421;
     padding: 20px;
     margin: 20px;
     border-radius: 10px;
@@ -60,5 +59,4 @@ const DisplayTimer = styled.div`
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 15px;
-
 `;

@@ -103,6 +103,9 @@ class ChessPuzzle extends Component {
         this.props.context.setTimer("playPauseTime");
       }
       }
+    else if (moveLikesKnight(sourceSquare, targetSquare)){
+        this.props.context.setTimer("addPenalization")
+    }
       else {
           return;
       }

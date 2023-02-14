@@ -18,6 +18,8 @@ function App() {
     hasEnded: false,
   })
 
+  const [timerColor, setTimerColor] = useState(undefined);
+
   const setTimer = (option) => {
     switch (option) {
     case 'playPauseTime':
@@ -28,6 +30,13 @@ function App() {
       break;
     case 'addPenalization':
       setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
+      if (timerState.modePenalization){
+        setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
+        setTimerColor("rgb(224 74 74)");
+        setTimeout(function(){
+          setTimerColor(undefined);
+        }, 100);
+      }
       break;
     case 'resetPenalization':
       setTimerState({...timerState, countPenalization: 0});
@@ -60,10 +69,13 @@ function App() {
         <LeftContainer>
           <Rules />
           <SwitchContainer>
-            <SpanSwitch>Penalization Mode</SpanSwitch>
-            <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive? true : false} />
+            <SwitchRow>
+              <SpanSwitch>Penalization Mode</SpanSwitch>
+              <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
+            </SwitchRow>
           </SwitchContainer>
-          <Timer context={TimerContext}/>
+            <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
+          <Timer context={TimerContext} backgroundColor={timerColor}/>
         </LeftContainer>
         <BorderChessBoard>
           <ChessPuzzleBoard context={TimerContext}/>
@@ -116,9 +128,10 @@ const Footer = styled.footer`
 
 const SpanSwitch = styled.span`
     margin-left: 15px;
+    font-weight: bold;
 `;
 
-const SwitchContainer = styled.div`
+const SwitchRow = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -129,6 +142,26 @@ const SwitchContainer = styled.div`
     background-color: #373531;
     min-width: 250px;
 `;
+
+const SwitchContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    min-width: 250px;
+    background-color: #373531;
+`;
+
+
+const SpanIlegal = styled.span`
+    font-weight: bold;
+    background-color: #262626;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 12px;
+    box-shadow: rgb(0 20 0 / 25%) 0px 30px 60px -12px inset, rgb(0 0 0 / 30%) 0px 18px 36px -18px inset;
+`;
+
 
 const LeftContainer = styled.div`
     display: flex;
