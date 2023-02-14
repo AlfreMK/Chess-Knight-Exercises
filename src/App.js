@@ -61,9 +61,9 @@ function App() {
           <Rules />
           <SwitchContainer>
             <SpanSwitch>Penalization Mode</SpanSwitch>
-            <Switch onClick={() => setTimer("changeMode")} />
+            <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive? true : false} />
           </SwitchContainer>
-            <Timer context={TimerContext}/>
+          <Timer context={TimerContext}/>
         </LeftContainer>
         <BorderChessBoard>
           <ChessPuzzleBoard context={TimerContext}/>

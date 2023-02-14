@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-
-
+import React, { useEffect, useContext } from 'react';
+import { Button } from '@mui/material';
+import styled from 'styled-components';
 
 function Timer(props) {
     const context = useContext(props.context);
@@ -19,11 +19,10 @@ function Timer(props) {
     
 
     return (
-        <div className="timer">
-            <div className="time">{timeToMsms(context.timer.time)}</div>
-            <button onClick={() => context.setTimer("resetTime")}>Reset</button>
-            {/* <button onClick={() => context.setTimer("playPauseTime")}>Start/Stop</button> */}
-        </div>
+        <CenterContainer>
+            <DisplayTimer>{timeToMsms(context.timer.time)}</DisplayTimer>
+            <Button variant="outlined" onClick={() => context.setTimer("resetTime")}>Reset</Button>
+        </CenterContainer>
     );
 }
 
@@ -37,9 +36,29 @@ function timeToMsms(time) {
     // fill with zeros
     secs = secs.toString().padStart(2, '0');
     if (time < 60){
-        return `${mins}:${secs}:${Math.floor(ms/100)}`;
+        return `${mins}:${secs}.${Math.floor(ms/100)}`;
     }
     return `${mins}:${secs}`;
 }
 
 export default Timer;
+
+
+
+const CenterContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #262421;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+`;
+
+const DisplayTimer = styled.div`
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+
+`;
