@@ -1,0 +1,34 @@
+{
+    "main": {
+        "position":{
+            "a1": "wN",
+            "c3": "bP",
+            "c6": "bP",
+            "f3": "bP",
+            "f6": "bP"
+        },
+        "squares_to_go": "all"
+    },
+    "1":{
+        "position":{
+            "a1": "wN",
+            "d5": "bQ"
+        },
+        "squares_to_go": "all"
+    },
+    "2":{
+        "position":{
+            "f3": "wN",
+            "g8": "bK",
+            "h8": "wB",
+            "a4": "wP",
+            "b3": "wP",
+            "b4": "wP",
+            "b5": "wP",
+            "b6": "wP"
+        },
+        "squares_to_go": "g8"
+    }
+
+
+}

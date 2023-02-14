@@ -1,6 +1,5 @@
-import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { Select, MenuItem } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -51,27 +50,3 @@ function SelecExercise(props){
 
 export default SelecExercise;
 
-
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 2%;
-    max-width: 300px;
-    margin-bottom: 50px;
-    @media (max-width: 640px) { 
-        order: 5;
-      }
-`;
-
-const Title = styled.h3`
-    text-align: center;
-`;
-
-const Highlighted = styled.span`
-    color: #4183c4;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    width: fit-content;
-`;
