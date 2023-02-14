@@ -21,6 +21,9 @@ const Container = styled.div`
     margin: 2%;
     max-width: 300px;
     margin-bottom: 50px;
+    @media (max-width: 640px) { 
+        order: 5;
+      }
 `;
 
 const Title = styled.h3`

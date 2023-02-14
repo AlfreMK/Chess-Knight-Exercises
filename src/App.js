@@ -55,8 +55,6 @@ function App() {
     }
   }
   
-
-
   return (
     <CenterContainer>
       <h2>Chess Knight Exercises</h2>
@@ -68,13 +66,15 @@ function App() {
             }}>
         <LeftContainer>
           <Rules />
-          <SwitchContainer>
-            <SwitchRow>
-              <SpanSwitch>Penalization Mode</SpanSwitch>
-              <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
-            </SwitchRow>
-          </SwitchContainer>
+          <PenaltContainer>
+            <SwitchContainer>
+              <SwitchRow>
+                <SpanSwitch>Penalization Mode</SpanSwitch>
+                <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
+              </SwitchRow>
+            </SwitchContainer>
             <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
+          </PenaltContainer>
           <Timer context={TimerContext} backgroundColor={timerColor}/>
         </LeftContainer>
         <BorderChessBoard>
@@ -141,6 +141,15 @@ const SwitchRow = styled.div`
     margin: 7px;
     background-color: #373531;
     min-width: 250px;
+`;
+
+const PenaltContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: 640px) { 
+      order: 2;
+    }
 `;
 
 const SwitchContainer = styled.div`
