@@ -3,10 +3,12 @@ import ChessPuzzleBoard from './integrations/ChessPuzzle';
 import styled from 'styled-components';
 import Rules from "./components/Rules";
 import Timer from "./components/Timer";
-import Switch from '@mui/material/Switch';
-
+import { Switch, Tooltip, IconButton } from "@mui/material";
+import InfoIcon from '@mui/icons-material/Info';
+import SelectExercise from "./components/SelectExercise";
 
 const TimerContext = createContext();
+const ExerciseContext = createContext();
 
 function App() {
   const [timerState, setTimerState] = useState({
@@ -19,6 +21,9 @@ function App() {
   })
 
   const [timerColor, setTimerColor] = useState(undefined);
+  
+  const [exercise, setExercise] = useState(0);
+
 
   const setTimer = (option) => {
     switch (option) {
@@ -57,42 +62,65 @@ function App() {
   
   return (
     <CenterContainer>
-      <h2>Chess Knight Exercises</h2>
-    <Container>
-      <TimerContext.Provider value={{
+      <ExerciseContext.Provider value={{
+            exercise: exercise,
+            setExercise: setExercise,
+            }}>
+        <TitleContainer>
+          <Title>Chess Knight Exercises</Title>
+          <SelectExercise context={ExerciseContext}/>
+        </TitleContainer>
+        <Container>
+          <TimerContext.Provider value={{
             timer: timerState,
             setTimer: setTimer,
             setTimerState: setTimerState,
             }}>
-        <LeftContainer>
-          <Rules />
-          <PenaltContainer>
-            <SwitchContainer>
-              <SwitchRow>
-                <SpanSwitch>Penalization Mode</SpanSwitch>
-                <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
-              </SwitchRow>
-            </SwitchContainer>
-            <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
-          </PenaltContainer>
-          <Timer context={TimerContext} backgroundColor={timerColor}/>
-        </LeftContainer>
-        <BorderChessBoard>
-          <ChessPuzzleBoard context={TimerContext}/>
-        </BorderChessBoard>
-      </TimerContext.Provider>
-    </Container>
+            <LeftContainer>
+              <Rules />
+              <PenaltContainer>
+                <SwitchContainer>
+                  <SwitchRow>
+                    {/* <Tooltip title="Each time you go to controlled squares the timer will be penalized with 10 seconds">
+                        <InfoIcon fontSize="small" />
+                    </Tooltip> */}
+                    <SpanSwitch>Penalization Mode</SpanSwitch>
+                    <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
+                  </SwitchRow>
+                </SwitchContainer>
+                <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
+              </PenaltContainer>
+              <Timer context={TimerContext} backgroundColor={timerColor}/>
+            </LeftContainer>
+            <BorderChessBoard>
+              <ChessPuzzleBoard context={TimerContext}/>
+            </BorderChessBoard>
+          </TimerContext.Provider>
+        </Container>
     <Footer>
       Made by <Link href="https://github.com/AlfreMK"> Alfredo Medina</Link>.
       Inspired by <Link href="https://www.jairtrejo.com/"> Jair Trejo</Link> and
       <Link href="https://www.danheisman.com/chess-exercises.html"> Dan Heisman </Link>
     </Footer>
+      </ExerciseContext.Provider>
+
     </CenterContainer>
   );
 }
 
 export default App;
 
+const Title = styled.h2`
+    margin-right: 15px;
+    margin-left: 15px;
+`;
+
+
+const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
 
 const CenterContainer = styled.div`
     display: flex;
@@ -127,7 +155,6 @@ const Footer = styled.footer`
 `;
 
 const SpanSwitch = styled.span`
-    margin-left: 15px;
     font-weight: bold;
 `;
 
@@ -147,6 +174,7 @@ const PenaltContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 10px;
     @media (max-width: 640px) { 
       order: 2;
     }

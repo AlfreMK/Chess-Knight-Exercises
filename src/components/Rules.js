@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 function Rules(){
     return (
         <Container>
             <Title>Move the knight to the <Highlighted>highlighted square</Highlighted></Title>
             <span>The goal is to move the knight in order left to right, bottom to up, with the restriction 
-                that you can't move it to squares attacked or controlled by the black pieces.</span>
+                that you can't move it to controlled squares by the black pieces.</span>
         </Container>
     )
 }
