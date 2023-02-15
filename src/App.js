@@ -27,7 +27,7 @@ function App() {
 
   const [timerColor, setTimerColor] = useState(undefined);
   
-  const [exercise, setExercise] = useState(0);
+  const [exercise, setExercise] = useState(3);
 
 
   const setTimer = (option) => {
@@ -84,7 +84,7 @@ function App() {
         <Container>
             <LeftContainer>
               <Rules context={ExerciseContext} />
-              <PenaltContainer  style={exercise<2? {}: invisibleStyle}>
+              <PenaltContainer  style={exercise<3? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
                     {/* <Tooltip title="Each time you go to controlled squares the timer will be penalized with 10 seconds">
