@@ -22,9 +22,11 @@ const darkTheme = createTheme({
 
 function SelecExercise(props){
     const context = useContext(props.context);
+    const timer = useContext(props.contextTimer);
     
     const handleChange = (event) => {
         context.setExercise(event.target.value);
+        timer.setTimer("resetPenalization");
     };
 
     return (
@@ -38,11 +40,11 @@ function SelecExercise(props){
 
                 >
                 <MenuItem value={0}>
-                    Main Exercise
+                    Exercise 1
                 </MenuItem>
-                <MenuItem value={1}>Exercise 1</MenuItem>
-                <MenuItem value={2}>Exercise 2</MenuItem>
-                <MenuItem value={3}>Exercise 3</MenuItem>
+                <MenuItem value={1}>Exercise 2</MenuItem>
+                <MenuItem value={2}>Check the King</MenuItem>
+                <MenuItem value={3}>Check the King 2</MenuItem>
             </Select>
         </ThemeProvider>
     )

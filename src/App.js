@@ -11,6 +11,10 @@ import exercises from "./exercises.json";
 const TimerContext = createContext();
 const ExerciseContext = createContext();
 
+const invisibleStyle = {
+  display: "none",
+}
+
 function App() {
   const [timerState, setTimerState] = useState({
     countPenalization: 0,
@@ -45,7 +49,7 @@ function App() {
       }
       break;
     case 'resetPenalization':
-      setTimerState({...timerState, countPenalization: 0});
+      setTimerState({...timerState, countPenalization: 0, modePenalization: false, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
       break;
     case 'resetAll':
       setTimerState({...timerState, countPenalization: 0, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
@@ -63,30 +67,31 @@ function App() {
   
   return (
     <CenterContainer>
+      <TimerContext.Provider value={{
+            timer: timerState,
+            setTimer: setTimer,
+            setTimerState: setTimerState,
+            }}>
       <ExerciseContext.Provider value={{
             exercise: exercise,
             setExercise: setExercise,
             }}>
         <TitleContainer>
           <Title>Chess Knight Exercises</Title>
-          <SelectExercise context={ExerciseContext}/>
+          
+          <SelectExercise context={ExerciseContext} contextTimer={TimerContext} />
         </TitleContainer>
         <Container>
-          <TimerContext.Provider value={{
-            timer: timerState,
-            setTimer: setTimer,
-            setTimerState: setTimerState,
-            }}>
             <LeftContainer>
-              <Rules />
-              <PenaltContainer>
+              <Rules context={ExerciseContext} />
+              <PenaltContainer  style={exercise<2? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
                     {/* <Tooltip title="Each time you go to controlled squares the timer will be penalized with 10 seconds">
                         <InfoIcon fontSize="small" />
                     </Tooltip> */}
                     <SpanSwitch>Penalization Mode</SpanSwitch>
-                    <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} />
+                    <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} checked={timerState.modePenalization} />
                   </SwitchRow>
                 </SwitchContainer>
                 <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
@@ -96,7 +101,6 @@ function App() {
             <BorderChessBoard>
               <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} />
             </BorderChessBoard>
-          </TimerContext.Provider>
         </Container>
     <Footer>
       Made by <Link href="https://github.com/AlfreMK"> Alfredo Medina</Link>.
@@ -104,6 +108,7 @@ function App() {
       <Link href="https://www.danheisman.com/chess-exercises.html"> Dan Heisman </Link>
     </Footer>
       </ExerciseContext.Provider>
+      </TimerContext.Provider>
 
     </CenterContainer>
   );
@@ -121,6 +126,7 @@ const TitleContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 10px;
 `;
 
 const CenterContainer = styled.div`

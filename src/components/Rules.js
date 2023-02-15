@@ -1,13 +1,30 @@
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext } from 'react';
 
-function Rules(){
+
+const invisibleStyle = {
+    display: "none",
+}
+const visibleStyle = {
+    display: "block",
+}
+
+function Rules(props){
+    const context = useContext(props.context);
+    
     return (
         <Container>
             <Title>Move the knight to the <Highlighted>highlighted square</Highlighted></Title>
-            <span>The goal is to move the knight in order left to right, bottom to up, with the restriction 
-                that you can't move it to controlled squares by the black pieces.</span>
+            
+            <span style={context.exercise<2? visibleStyle: invisibleStyle}>
+                The goal is to move the knight in order left to right, bottom to up, with the restriction 
+                that you can't move it to controlled squares by the black pieces.
+            </span>
+
+            <span style={context.exercise>=2? visibleStyle: invisibleStyle}>
+                Go check that king with your horsy!
+            </span>
         </Container>
     )
 }

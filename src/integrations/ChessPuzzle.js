@@ -6,6 +6,7 @@ import {
 	moveLikesKnight,
 	updateKnightInPosition,
 	getSquareOfKnight,
+  getInvalidSquaresByPosition,
 } from "./functions";
 // import { Chess } from "chess.js";
 import Chessboard from "chessboardjsx";
@@ -21,7 +22,8 @@ class ChessPuzzle extends Component {
     squareOfKnight: getSquareOfKnight(this.props.exercise.position),
     OtherPieces: getAllPiecesExceptKnight(this.props.exercise.position),
     // all squares except the attacked ones and squarepawns
-    squaresToGo: getSquarestoGo(this.props.exercise.position, this.props.exercise.ascendant),
+    invalidSquares: getInvalidSquaresByPosition(this.props.exercise.position),
+    squaresToGo: getSquarestoGo(this.props.exercise),
     actualSquareToGoIndex: 1,
     squareStyles: {},
   };
@@ -54,11 +56,17 @@ class ChessPuzzle extends Component {
   }
 
   reset = () => {
+    const position = this.props.exercise.position;
+    const squaresToGo = getSquarestoGo(this.props.exercise)
     this.setState({
-        position: this.props.exercise.position,
-        squareOfKnight: getSquareOfKnight(this.props.exercise.position),
-        actualSquareToGoIndex: 1,
-        squareStyles: { [this.state.squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
+      position: position,
+      squareOfKnight: getSquareOfKnight(position),
+      OtherPieces: getAllPiecesExceptKnight(position),
+      invalidSquares: getInvalidSquaresByPosition(position),
+      // all squares except the attacked ones and squarepawns
+      squaresToGo: squaresToGo,
+      actualSquareToGoIndex: 1,
+      squareStyles: { [squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
     });
   }
 
@@ -69,7 +77,7 @@ class ChessPuzzle extends Component {
 
 
   moveTheKnight = (sourceSquare, targetSquare) => {
-    if (moveLikesKnight(sourceSquare, targetSquare) && this.state.squaresToGo.includes(targetSquare)) {
+    if (moveLikesKnight(sourceSquare, targetSquare) && !this.state.invalidSquares.includes(targetSquare)) {
       this.setState({
           position: updateKnightInPosition(this.props.exercise.position, targetSquare),
           squareOfKnight: targetSquare,

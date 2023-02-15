@@ -11,13 +11,10 @@ const getInvalidSquaresByPiece = (square, piece) => {
             return getBishopSquaresAttacked(square).concat([square]);
         case "bQ":
             return getQueenSquaresAttacked(square).concat([square]);
-        case "bK":
-            return getKingSquaresAttacked(square).concat([square]);
+        // case "bK":
+            // return getKingSquaresAttacked(square).concat([square]);
         default:
-            if (piece[0] === "w") {
-                return [square]
-            }
-            return [];
+            return [square];
     }
 };
 
@@ -106,30 +103,33 @@ const getInvalidSquaresByPosition = (position) => {
 };
 
 
-const getSquarestoGo = (position, ascendant=true) => {
-    const invalidSquares = getInvalidSquaresByPosition(position);
-    const squares = [];
-    for (let i = 1; i < 9; i++) {
-        for (let j = 1; j < 9; j++) {
-            const square = SquareByCoord([i - 1, j - 1]);
-            if (!invalidSquares.includes(square)) {
-                squares.push(square);
+const getSquarestoGo = (exercise) => {
+    if (exercise.squares_to_go === "all") {
+        const invalidSquares = getInvalidSquaresByPosition(exercise.position);
+        const squares = [];
+        for (let i = 1; i < 9; i++) {
+            for (let j = 1; j < 9; j++) {
+                const square = SquareByCoord([i - 1, j - 1]);
+                if (!invalidSquares.includes(square)) {
+                    squares.push(square);
+                }
             }
         }
-    }
-    // sort squares by file and rank
-    // order by a1, b1, c1, d1, ..., h8, a2, ...
-    squares.sort((a, b) => {
-        if (a[1] === b[1]) {
-            return a.charCodeAt(0) - b.charCodeAt(0);
+        // sort squares by file and rank
+        // order by a1, b1, c1, d1, ..., h8, a2, ...
+        squares.sort((a, b) => {
+            if (a[1] === b[1]) {
+                return a.charCodeAt(0) - b.charCodeAt(0);
+            }
+            return a[1] - b[1];
+        });
+        if (!(!!JSON.parse(exercise.ascendant))) {
+            squares.reverse();
         }
-        return a[1] - b[1];
-    });
-    if (!(!!JSON.parse(ascendant))) {
-        squares.reverse();
-	}
 
-    return squares;
+        return squares;
+    }
+    return [getSquareOfKnight(exercise.position), exercise.squares_to_go];
 };
 
 const getAllPiecesExceptKnight = (position) => {
@@ -172,4 +172,5 @@ export {
     moveLikesKnight,
     updateKnightInPosition,
     getSquareOfKnight,
+    getInvalidSquaresByPosition,
 };
