@@ -1,57 +1,65 @@
-{
-    "0": {
-        "position":{
-            "a1": "wN",
-            "c3": "bP",
-            "c6": "bP",
-            "f3": "bP",
-            "f6": "bP"
-        },
-        "squares_to_go": "all",
-        "ascendant": "true"
+[{
+    "position":{
+        "a1": "wN",
+        "c3": "bP",
+        "c6": "bP",
+        "f3": "bP",
+        "f6": "bP"
     },
-    "1":{
-        "position":{
-            "h8": "wN",
-            "d5": "bQ"
-        },
-        "squares_to_go": "all",
-        "ascendant": "false"
+    "squares_to_go": "all",
+    "ascendant": "true"
     },
-    "2":{
-        "position":{
-            "f3": "wN",
-            "g8": "bK",
-            "h8": "wB",
-            "a4": "wP",
-            "b3": "wP", "b4": "wP", "b5": "wP", "b6": "wP",
-            "c4": "wP", "c6": "wP", "c7": "wP",
-            "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP",
-            "e2": "wP", "e3": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
-            "f2": "wP", "f5": "wP", "f6": "wP",
-            "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
-            "h2": "wP", "h3": "wP", "h4": "wP", "h7": "wP"
-        },
-        "squares_to_go": "h6",
-        "ascendant": "undefined"
+    {
+    "position":{
+        "h8": "wN",
+        "d5": "bQ"
     },
-    "3":{
-        "position":{
-            "f3": "wN",
-            "e3": "bK",
-            "d1": "wB", "f1": "wB", "e8": "wB", "g8": "wB",
-            "a4": "wP", "a5": "wP",
-            "b3": "wP", "b5": "wP", "b6": "wP",
-            "c2": "wP", "c6": "wP", "c7": "wP",
-            "d2": "wP", "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP", "d7": "wP",
-            "e2": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
-            "f4": "wP", "f5": "wP",
-            "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
-            "h4": "wP"
-        },
-        "squares_to_go": "c4",
-        "ascendant": "undefined"
+    "squares_to_go": "all",
+    "ascendant": "false"
+    },
+    {
+    "position":{
+        "f3": "wN",
+        "a4": "wP",
+        "b3": "wP", "b5": "wP", "b6": "wP",
+        "c6": "wP", "c7": "wP",
+        "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP",
+        "e2": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
+        "f5": "wP",
+        "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
+        "h4": "wP",
+
+        "b4": "wP",
+        "c4": "wP",
+        "e3": "wP", 
+        "f2": "wP", "f6": "wP",
+        "h2": "wP", "h3": "wP", "h7": "wP",
+        "g8": "bK",
+        "h8": "wB"
+    },
+    "squares_to_go": "h6",
+    "ascendant": "undefined"
+    },
+    {
+    "position":{
+        "f3": "wN",
+        "a4": "wP",
+        "b3": "wP", "b5": "wP", "b6": "wP",
+        "c6": "wP", "c7": "wP",
+        "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP",
+        "e2": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
+        "f5": "wP",
+        "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
+        "h4": "wP",
+
+        "a5": "wP",
+        "c2": "wP",
+        "d2": "wP", "d7": "wP",
+        "f4": "wP",
+        "e3": "bK",
+        "d1": "wB", "f1": "wB", "e8": "wB", "g8": "wB"
+    },
+    "squares_to_go": "c4",
+    "ascendant": "undefined"
     }
-
-
-}
+]

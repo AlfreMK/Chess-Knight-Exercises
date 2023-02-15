@@ -121,7 +121,6 @@ const Title = styled.h2`
     margin-left: 15px;
 `;
 
-
 const TitleContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -154,7 +153,7 @@ const BorderChessBoard = styled.div`
 const Footer = styled.footer`
     margin: 10px;
     margin-top: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     text-align: center;
     @media (max-width: 640px) { 
       font-size: 0.8em;

@@ -21,7 +21,6 @@ class ChessPuzzle extends Component {
     position: this.props.exercise.position,
     squareOfKnight: getSquareOfKnight(this.props.exercise.position),
     OtherPieces: getAllPiecesExceptKnight(this.props.exercise.position),
-    // all squares except the attacked ones and squarepawns
     invalidSquares: getInvalidSquaresByPosition(this.props.exercise.position),
     squaresToGo: getSquarestoGo(this.props.exercise),
     actualSquareToGoIndex: 1,
@@ -57,13 +56,12 @@ class ChessPuzzle extends Component {
 
   reset = () => {
     const position = this.props.exercise.position;
-    const squaresToGo = getSquarestoGo(this.props.exercise)
+    const squaresToGo = getSquarestoGo(this.props.exercise);
     this.setState({
       position: position,
       squareOfKnight: getSquareOfKnight(position),
       OtherPieces: getAllPiecesExceptKnight(position),
       invalidSquares: getInvalidSquaresByPosition(position),
-      // all squares except the attacked ones and squarepawns
       squaresToGo: squaresToGo,
       actualSquareToGoIndex: 1,
       squareStyles: { [squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
@@ -134,7 +132,7 @@ export default function ChessPuzzleBoard(props) {
   return (
     <ChessPuzzle
       context={context}
-	  exercise={props.exercise}
+	    exercise={props.exercise}
       timeIsActive={context.timer.timeIsActive}
       hasReseted={context.timer.hasReseted}
       hasEnded={context.timer.hasEnded}
