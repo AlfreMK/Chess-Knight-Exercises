@@ -227,31 +227,3 @@ const Link = styled.a`
         text-decoration: underline;
     }
 `;
-
-const RightContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5px;
-    margin-top: 30px;
-    min-width: 300px;
-`;
-
-const Button = styled.button`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #373531;
-    font-weight: bold;
-    color: #bababa;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px;
-    border: none;
-    cursor: pointer;
-    min-width: 250px;
-    &:hover {
-        background-color: #2d5b7c;
-    }
-`;
