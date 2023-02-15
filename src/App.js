@@ -39,13 +39,15 @@ function App() {
       setTimerState({...timerState, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
       break;
     case 'addPenalization':
-      setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
-      if (timerState.modePenalization){
-        setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
-        setTimerColor("rgb(224 74 74)");
-        setTimeout(function(){
-          setTimerColor(undefined);
-        }, 100);
+      if (timerState.timeIsActive){
+        setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
+        if (timerState.modePenalization){
+          setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
+          setTimerColor("rgb(224 74 74)");
+          setTimeout(function(){
+            setTimerColor(undefined);
+          }, 100);
+        }
       }
       break;
     case 'resetPenalization':
