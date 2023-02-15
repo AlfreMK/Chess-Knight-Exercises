@@ -28,6 +28,7 @@ const styles = {
 
 function Timer(props) {
     const context = useContext(props.context);
+    const exercise = useContext(props.exercise);
 
     useEffect(() => {
         let interval = null;
@@ -41,8 +42,9 @@ function Timer(props) {
         return () => clearInterval(interval);
     }, [context, context.timer.timeIsActive, context.timer.time]);
     
-
-    
+    useEffect(() => {
+        console.log(exercise.squaresCount);
+    }, [exercise.squaresCount]);
 
     return (
         <CenterContainer style={styles[context.timerStyle]}>

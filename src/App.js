@@ -29,6 +29,29 @@ function App() {
   
   const [exercise, setExercise] = useState(3);
 
+  const [squaresCount, setSquaresCount] = useState({
+    squaresToGo: 0,
+    squaresDone: 0,
+  });
+
+  const updateStyle = (style, time) => {
+    setTimeout(function(){
+      setTimerStyle(style);
+    }, time);
+  }
+
+  const setSquares = (option, num) => {
+    switch (option) {
+      case 'squaresDone':
+        setSquaresCount({...squaresCount, squaresDone: num});
+        break;
+      case 'totalToGo':
+        setSquaresCount({...squaresCount, squaresToGo: num, squaresDone: 0});
+        break;
+      default:
+        break;
+    }
+  }
 
   const setTimer = (option) => {
     switch (option) {
@@ -41,23 +64,17 @@ function App() {
         if (timerState.modePenalization){
           setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
           setTimerStyle("red");
-          setTimeout(function(){
-            setTimerStyle("normal");
-          }, 100);
+          updateStyle("normal", 100)
         }
       }
       break;
     case 'resetPenalization':
       setTimerState({...timerState, countPenalization: 0, modePenalization: false, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      setTimeout(function(){
-        setTimerStyle("normal");
-      }, 1);
+      updateStyle("normal", 1)
       break;
     case 'resetAll':
       setTimerState({...timerState, countPenalization: 0, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      setTimeout(function(){
-        setTimerStyle("normal");
-      }, 1);
+      updateStyle("normal", 1)
       break;
     case 'changeMode':
       setTimerState({...timerState, modePenalization: !timerState.modePenalization});
@@ -82,6 +99,8 @@ function App() {
       <ExerciseContext.Provider value={{
             exercise: exercise,
             setExercise: setExercise,
+            squaresCount: squaresCount,
+            setSquares: setSquares,
             }}>
         <TitleContainer>
           <Title>Chess Knight Exercises</Title>
@@ -103,10 +122,10 @@ function App() {
                 </SwitchContainer>
                 <SpanIlegal>{timerState.countPenalization} <span style={{color: "rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
               </PenaltContainer>
-              <Timer context={TimerContext}/>
+              <Timer context={TimerContext} exercise={ExerciseContext} />
             </LeftContainer>
             <BorderChessBoard>
-              <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} />
+              <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} contextExercise={ExerciseContext} />
             </BorderChessBoard>
         </Container>
     <Footer>
