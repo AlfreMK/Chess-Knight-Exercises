@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
 import styled from 'styled-components';
+import CircularProgressWithLabel from './CircularProgressWithLabel';
 
 
 const redStyle = {
@@ -14,15 +15,9 @@ const normalStyle = {
 
 }
 
-const successStyle = {
-    border:"3px solid #4183c4",
-    backgroundColor: "#262421",
-};
-
 const styles = {
     normal: normalStyle,
     red: redStyle,
-    success: successStyle,
 }
   
 
@@ -42,16 +37,19 @@ function Timer(props) {
         return () => clearInterval(interval);
     }, [context, context.timer.timeIsActive, context.timer.time]);
     
-    useEffect(() => {
-        console.log(exercise.squaresCount);
-    }, [exercise.squaresCount]);
 
     return (
-        <CenterContainer style={styles[context.timerStyle]}>
-            <DisplayTimer>{timeToMsms(context.timer.time)}</DisplayTimer>
-            <Button variant="outlined" onClick={() => context.setTimer("resetAll")}>Reset</Button>
-        </CenterContainer>
+        <CircularProgressWithLabel value={getPercentage(exercise.squaresCount)}>
+            <CenterContainer style={styles[context.timerStyle]}>
+                <DisplayTimer>{timeToMsms(context.timer.time)}</DisplayTimer>
+                <Button variant="outlined" onClick={() => context.setTimer("resetAll")}>Reset</Button>
+            </CenterContainer>
+        </CircularProgressWithLabel>
     );
+}
+
+function getPercentage(object) {
+    return Math.floor((object.squaresDone * 100) / object.squaresToGo);
 }
 
 
@@ -80,7 +78,9 @@ const CenterContainer = styled.div`
     justify-content: center;
     padding: 20px;
     margin: 20px;
-    border-radius: 10px;
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
 `;
 
 const DisplayTimer = styled.div`

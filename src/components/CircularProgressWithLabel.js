@@ -3,10 +3,19 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
+
+// code extracted and adapted from https://mui.com/material-ui/react-progress/
+
+const style = {
+  width: '200px',
+  height: '200px',
+  // backgroundColor: 'red',
+}
+
 function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress variant="determinate" {...props} />
+      <CircularProgress variant="determinate" {...props} style={style}/>
       <Box
         sx={{
           top: 0,

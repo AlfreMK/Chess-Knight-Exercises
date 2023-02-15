@@ -70,18 +70,15 @@ function App() {
       break;
     case 'resetPenalization':
       setTimerState({...timerState, countPenalization: 0, modePenalization: false, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      updateStyle("normal", 1)
       break;
     case 'resetAll':
       setTimerState({...timerState, countPenalization: 0, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      updateStyle("normal", 1)
       break;
     case 'changeMode':
       setTimerState({...timerState, modePenalization: !timerState.modePenalization});
       break;
     case 'endGame':
       setTimerState({...timerState, timeIsActive: false, hasEnded: true});
-      setTimerStyle("success");
       break;
     default:
       break;
@@ -206,7 +203,7 @@ const PenaltContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     @media (max-width: 640px) { 
       order: 2;
     }

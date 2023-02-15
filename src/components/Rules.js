@@ -49,7 +49,7 @@ const Container = styled.div`
     flex-direction: column;
     margin: 2%;
     max-width: 300px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     @media (max-width: 640px) { 
         order: 5;
       }
