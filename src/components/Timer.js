@@ -2,6 +2,30 @@ import React, { useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
 import styled from 'styled-components';
 
+
+const redStyle = {
+    backgroundColor: "rgb(224 74 74)",
+    border:"3px solid rgb(224 74 74)",
+  };
+  
+const normalStyle = {
+    backgroundColor: "#262421",
+    border:"3px solid #262421",
+
+}
+
+const successStyle = {
+    border:"3px solid #4183c4",
+    backgroundColor: "#262421",
+};
+
+const styles = {
+    normal: normalStyle,
+    red: redStyle,
+    success: successStyle,
+}
+  
+
 function Timer(props) {
     const context = useContext(props.context);
 
@@ -18,8 +42,10 @@ function Timer(props) {
     }, [context, context.timer.timeIsActive, context.timer.time]);
     
 
+    
+
     return (
-        <CenterContainer style={{backgroundColor: props.backgroundColor || "#262421"}}>
+        <CenterContainer style={styles[context.timerStyle]}>
             <DisplayTimer>{timeToMsms(context.timer.time)}</DisplayTimer>
             <Button variant="outlined" onClick={() => context.setTimer("resetAll")}>Reset</Button>
         </CenterContainer>

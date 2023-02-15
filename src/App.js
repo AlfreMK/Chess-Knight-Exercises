@@ -25,7 +25,7 @@ function App() {
     hasEnded: false,
   })
 
-  const [timerColor, setTimerColor] = useState(undefined);
+  const [timerStyle, setTimerStyle] = useState("normal");
   
   const [exercise, setExercise] = useState(3);
 
@@ -35,32 +35,36 @@ function App() {
     case 'playPauseTime':
       setTimerState({...timerState, timeIsActive: !timerState.timeIsActive, hasReseted: false, hasEnded: false});
       break;
-    case 'resetTime':
-      setTimerState({...timerState, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      break;
     case 'addPenalization':
       if (timerState.timeIsActive){
         setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
         if (timerState.modePenalization){
           setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
-          setTimerColor("rgb(224 74 74)");
+          setTimerStyle("red");
           setTimeout(function(){
-            setTimerColor(undefined);
+            setTimerStyle("normal");
           }, 100);
         }
       }
       break;
     case 'resetPenalization':
       setTimerState({...timerState, countPenalization: 0, modePenalization: false, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
+      setTimeout(function(){
+        setTimerStyle("normal");
+      }, 1);
       break;
     case 'resetAll':
       setTimerState({...timerState, countPenalization: 0, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
+      setTimeout(function(){
+        setTimerStyle("normal");
+      }, 1);
       break;
     case 'changeMode':
       setTimerState({...timerState, modePenalization: !timerState.modePenalization});
       break;
     case 'endGame':
       setTimerState({...timerState, timeIsActive: false, hasEnded: true});
+      setTimerStyle("success");
       break;
     default:
       break;
@@ -73,6 +77,7 @@ function App() {
             timer: timerState,
             setTimer: setTimer,
             setTimerState: setTimerState,
+            timerStyle: timerStyle,
             }}>
       <ExerciseContext.Provider value={{
             exercise: exercise,
@@ -96,9 +101,9 @@ function App() {
                     <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} checked={timerState.modePenalization} />
                   </SwitchRow>
                 </SwitchContainer>
-                <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
+                <SpanIlegal>{timerState.countPenalization} <span style={{color: "rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
               </PenaltContainer>
-              <Timer context={TimerContext} backgroundColor={timerColor}/>
+              <Timer context={TimerContext}/>
             </LeftContainer>
             <BorderChessBoard>
               <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} />
