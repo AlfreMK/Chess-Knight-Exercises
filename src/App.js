@@ -107,7 +107,7 @@ function App() {
         <Container>
             <LeftContainer>
               <Rules context={ExerciseContext} />
-              <PenaltContainer  style={exercise<3? {}: invisibleStyle}>
+              <PenaltContainer style={exercise<3? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
                     <Tooltip title="Each time you go to controlled squares (i.e ilegal attempt) the timer will be penalized with 10 seconds added" arrow>
@@ -125,6 +125,10 @@ function App() {
             </LeftContainer>
             <BorderChessBoard>
               <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} contextExercise={ExerciseContext} />
+              <SpanMyTime style={exercise<3? {}: invisibleStyle}>
+              <SpanTime> {exercises[exercise].my_time} </SpanTime>
+              Beat my time!  
+              I dare you, I double dare you! </SpanMyTime>
             </BorderChessBoard>
         </Container>
     <Footer>
@@ -141,11 +145,38 @@ function App() {
 
 export default App;
 
+
+const SpanTime = styled.span`
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    color: #bababa;
+    border-radius: 5px;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0 5px;
+    background-color: #1a1a1a;
+`;
+
+const SpanMyTime = styled.span`
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+    color: #bababa;
+    margin-top: 4px;
+    @media (max-width: 640px) {
+      font-size: 0.8em;
+    }
+`;	
+
 const Title = styled.h2`
     margin-right: 15px;
     margin-left: 15px;
     @media (max-width: 640px) { 
-      font-size: 1.3em;
+      font-size: 1.2em;
+      margin-bottom: 10px;
     }
 `;
 
@@ -156,6 +187,7 @@ const TitleContainer = styled.div`
     margin: 10px;
     @media (max-width: 640px) { 
       justify-content: center;
+      margin-bottom: 0px;
     }
 `;
 

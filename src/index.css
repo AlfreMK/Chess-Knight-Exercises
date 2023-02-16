@@ -22,6 +22,7 @@ code {
 @media (max-width: 640px) {
   .select-exercise{
     margin-right: 12px;
+    height: 40px;
     font-size: small;
   }
 }
