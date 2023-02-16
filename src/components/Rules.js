@@ -15,17 +15,28 @@ function Rules(props){
     
     return (
         <Container>
-            <Title>Move the knight to the <Highlighted>highlighted square</Highlighted></Title>
+            <Title>Reroute the knight to the <Highlighted>highlighted square</Highlighted></Title>
             
-            <span style={context.exercise<2? visibleStyle: invisibleStyle}>
-                The goal is to move the knight in order left to right, bottom to up, with the restriction 
+            <span style={context.exercise<3? visibleStyle: invisibleStyle}>
+                The goal is to move the knight in order 
+                <OrderRoute ascending={context.exercise!==1}/>
+                , with the restriction 
                 that you can't move it to controlled squares by the black pieces.
             </span>
 
-            <span style={context.exercise>=2? visibleStyle: invisibleStyle}>
+            <span style={context.exercise>=3? visibleStyle: invisibleStyle}>
                 Go check that king with your horsy!
             </span>
         </Container>
+    )
+}
+
+function OrderRoute(props){
+    const ascending = props.ascending;
+    return (
+        <span>
+            {ascending? " left to right, bottom to up": " right to left, up to bottom"}
+        </span>
     )
 }
 
@@ -38,7 +49,7 @@ const Container = styled.div`
     flex-direction: column;
     margin: 2%;
     max-width: 300px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     @media (max-width: 640px) { 
         order: 5;
       }

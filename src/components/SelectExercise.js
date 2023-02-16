@@ -39,12 +39,12 @@ function SelecExercise(props){
                 className='select-exercise'
 
                 >
-                <MenuItem value={0}>
-                    Exercise 1
-                </MenuItem>
-                <MenuItem value={1}>Exercise 2</MenuItem>
-                <MenuItem value={2}>Check the King</MenuItem>
-                <MenuItem value={3}>Check the King 2</MenuItem>
+                <MenuItem value={3}>Check the King 1</MenuItem>
+                <MenuItem value={4}>Check the King 2</MenuItem>
+                <MenuItem value={5}>Check the King 3</MenuItem>
+                <MenuItem value={0}>Full Route 1</MenuItem>
+                <MenuItem value={1}>Full Route 2</MenuItem>
+                <MenuItem value={2}>Full Route 3</MenuItem>
             </Select>
         </ThemeProvider>
     )

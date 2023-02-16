@@ -18,17 +18,36 @@
     "ascendant": "false"
     },
     {
+        "position":{
+            "b1": "wN",
+            "a1": "bN",
+            "h1": "bN",
+            "a8": "bN",
+            "h8": "bN",
+            "d4": "bN",
+            "e5": "bN"
+        },
+        "squares_to_go": "all",
+        "ascendant": "true"
+        },
+    {
     "position":{
         "f3": "wN",
-        "a4": "wP",
-        "b3": "wP", "b5": "wP", "b6": "wP",
-        "c6": "wP", "c7": "wP",
-        "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP",
-        "e2": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
-        "f5": "wP",
-        "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
+        "b3": "wP", "b6": "wP",
+        "c7": "wP",
+        "d3": "wP", "d4": "wP",
+        "e2": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
+        "g2": "wP", "g5": "wP",
         "h4": "wP",
 
+        "a4": "wP",
+        "b5": "wP",
+        "c6": "wP",
+        "d5": "wP", "d6": "wP",
+        "e4": "wP",
+        "f5": "wP",
+        "g4": "wP", "g7": "wP",
+        
         "b4": "wP",
         "c4": "wP",
         "e3": "wP", 
@@ -43,14 +62,20 @@
     {
     "position":{
         "f3": "wN",
-        "a4": "wP",
-        "b3": "wP", "b5": "wP", "b6": "wP",
-        "c6": "wP", "c7": "wP",
-        "d3": "wP", "d4": "wP", "d5": "wP", "d6": "wP",
-        "e2": "wP", "e4": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
-        "f5": "wP",
-        "g2": "wP", "g4": "wP", "g5": "wP", "g7": "wP",
+        "b3": "wP", "b6": "wP",
+        "c7": "wP",
+        "d3": "wP", "d4": "wP",
+        "e2": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
+        "g2": "wP", "g5": "wP",
         "h4": "wP",
+
+        "a4": "wP",
+        "b5": "wP",
+        "c6": "wP",
+        "d5": "wP", "d6": "wP",
+        "e4": "wP",
+        "f5": "wP",
+        "g4": "wP", "g7": "wP",
 
         "a5": "wP",
         "c2": "wP",
@@ -60,6 +85,26 @@
         "d1": "wB", "f1": "wB", "e8": "wB", "g8": "wB"
     },
     "squares_to_go": "c4",
+    "ascendant": "undefined"
+    },
+    {
+    "position":{
+        "f3": "wN",
+        "b3": "wP", "b6": "wP",
+        "c7": "wP",
+        "d3": "wP", "d4": "wP",
+        "e2": "wP", "e5": "wP", "e6": "wP", "e7": "wP",
+        "g2": "wP", "g5": "wP",
+        "h4": "wP",
+
+        "b4": "wP", 
+        "c3": "wP",
+        "e3": "wP",
+        "f2": "wP", "f6": "wP",
+        "h2": "wP", "h3": "wP", "h5": "wP", "h7": "wP",
+        "b8": "wB", "h8": "wB", "d5": "bK"
+    },
+    "squares_to_go": "f4",
     "ascendant": "undefined"
     }
 ]

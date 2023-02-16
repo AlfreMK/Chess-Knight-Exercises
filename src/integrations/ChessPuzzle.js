@@ -66,6 +66,7 @@ class ChessPuzzle extends Component {
       actualSquareToGoIndex: 1,
       squareStyles: { [squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
     });
+    this.props.contextExercise.setSquares("totalToGo", squaresToGo.length - 1);
   }
 
   allowDrag = ({ piece }) => {
@@ -81,13 +82,13 @@ class ChessPuzzle extends Component {
           squareOfKnight: targetSquare,
       });
       if (targetSquare === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
+        this.props.contextExercise.setSquares("squaresDone", this.state.actualSquareToGoIndex);
           this.setState({
             actualSquareToGoIndex: this.state.actualSquareToGoIndex + 1,
             actualSquareToGo: this.state.squaresToGo[this.state.actualSquareToGoIndex + 1],
             squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex + 1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
         });
       };
-      
       if (!this.props.timeIsActive){
         this.props.context.setTimer("playPauseTime");
       }
@@ -129,10 +130,12 @@ class ChessPuzzle extends Component {
 
 export default function ChessPuzzleBoard(props) {
   const context = useContext(props.context);
+  const contextExercise = useContext(props.contextExercise);
   return (
     <ChessPuzzle
       context={context}
 	    exercise={props.exercise}
+      contextExercise={contextExercise}
       timeIsActive={context.timer.timeIsActive}
       hasReseted={context.timer.hasReseted}
       hasEnded={context.timer.hasEnded}

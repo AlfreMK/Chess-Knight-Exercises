@@ -5,8 +5,8 @@ const getInvalidSquaresByPiece = (square, piece) => {
             return getPawnSquaresAttacked(square).concat([square]);
         case "bR":
             return getRookSquaresAttacked(square).concat([square]);
-        // case "bN":
-        //     return getKnightSquaresAttacked(square);
+        case "bN":
+            return getKnightSquaresAttacked(square).concat([square]);
         case "bB":
             return getBishopSquaresAttacked(square).concat([square]);
         case "bQ":
@@ -52,6 +52,21 @@ const getRookSquaresAttacked = (square) => {
         }
         if (i !== coord[1]) {
             squares.push(SquareByCoord([coord[0], i]));
+        }
+    }
+    return squares;
+};
+
+const getKnightSquaresAttacked = (square) => {
+    const squares = [];
+    const coord = CoordBySquare(square);
+    for (let i = -2; i < 3; i++) {
+        for (let j = -2; j < 3; j++) {
+            if (Math.abs(i) + Math.abs(j) === 3) {
+                if (coord[0] + i >= 0 && coord[0] + i < 8 && coord[1] + j >= 0 && coord[1] + j < 8) {
+                    squares.push(SquareByCoord([coord[0] + i, coord[1] + j]));
+                }
+            }
         }
     }
     return squares;

@@ -25,27 +25,47 @@ function App() {
     hasEnded: false,
   })
 
-  const [timerColor, setTimerColor] = useState(undefined);
+  const [timerStyle, setTimerStyle] = useState("normal");
   
-  const [exercise, setExercise] = useState(0);
+  const [exercise, setExercise] = useState(3);
 
+  const [squaresCount, setSquaresCount] = useState({
+    squaresToGo: 0,
+    squaresDone: 0,
+  });
+
+  const updateStyle = (style, time) => {
+    setTimeout(function(){
+      setTimerStyle(style);
+    }, time);
+  }
+
+  const setSquares = (option, num) => {
+    switch (option) {
+      case 'squaresDone':
+        setSquaresCount({...squaresCount, squaresDone: num});
+        break;
+      case 'totalToGo':
+        setSquaresCount({...squaresCount, squaresToGo: num, squaresDone: 0});
+        break;
+      default:
+        break;
+    }
+  }
 
   const setTimer = (option) => {
     switch (option) {
     case 'playPauseTime':
       setTimerState({...timerState, timeIsActive: !timerState.timeIsActive, hasReseted: false, hasEnded: false});
       break;
-    case 'resetTime':
-      setTimerState({...timerState, time: 0, timeIsActive: false, hasReseted: true, hasEnded: false});
-      break;
     case 'addPenalization':
-      setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
-      if (timerState.modePenalization){
-        setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
-        setTimerColor("rgb(224 74 74)");
-        setTimeout(function(){
-          setTimerColor(undefined);
-        }, 100);
+      if (timerState.timeIsActive){
+        setTimerState({...timerState, countPenalization: timerState.countPenalization + 1});
+        if (timerState.modePenalization){
+          setTimerState({...timerState, countPenalization: timerState.countPenalization + 1, time: timerState.time + 10000});
+          setTimerStyle("red");
+          updateStyle("normal", 100)
+        }
       }
       break;
     case 'resetPenalization':
@@ -71,10 +91,13 @@ function App() {
             timer: timerState,
             setTimer: setTimer,
             setTimerState: setTimerState,
+            timerStyle: timerStyle,
             }}>
       <ExerciseContext.Provider value={{
             exercise: exercise,
             setExercise: setExercise,
+            squaresCount: squaresCount,
+            setSquares: setSquares,
             }}>
         <TitleContainer>
           <Title>Chess Knight Exercises</Title>
@@ -84,22 +107,24 @@ function App() {
         <Container>
             <LeftContainer>
               <Rules context={ExerciseContext} />
-              <PenaltContainer  style={exercise<2? {}: invisibleStyle}>
+              <PenaltContainer  style={exercise<3? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
-                    {/* <Tooltip title="Each time you go to controlled squares the timer will be penalized with 10 seconds">
+                    <Tooltip title="Each time you go to controlled squares (i.e ilegal attempt) the timer will be penalized with 10 seconds added">
+                      <IconButton style={{color:"#bababa"}}>
                         <InfoIcon fontSize="small" />
-                    </Tooltip> */}
+                      </IconButton>
+                    </Tooltip>
                     <SpanSwitch>Penalization Mode</SpanSwitch>
                     <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} checked={timerState.modePenalization} />
                   </SwitchRow>
                 </SwitchContainer>
-                <SpanIlegal>{timerState.countPenalization} <span style={{color:"rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
+                <SpanIlegal>{timerState.countPenalization} <span style={{color: "rgb(224 74 74)"}}>ILEGAL ATTEMPTS</span></SpanIlegal>
               </PenaltContainer>
-              <Timer context={TimerContext} backgroundColor={timerColor}/>
+              <Timer context={TimerContext} exercise={ExerciseContext} />
             </LeftContainer>
             <BorderChessBoard>
-              <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} />
+              <ChessPuzzleBoard context={TimerContext} exercise={exercises[exercise]} contextExercise={ExerciseContext} />
             </BorderChessBoard>
         </Container>
     <Footer>
@@ -180,7 +205,7 @@ const PenaltContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     @media (max-width: 640px) { 
       order: 2;
     }
@@ -223,33 +248,5 @@ const Link = styled.a`
     font-weight: bold;
     &:hover {
         text-decoration: underline;
-    }
-`;
-
-const RightContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5px;
-    margin-top: 30px;
-    min-width: 300px;
-`;
-
-const Button = styled.button`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #373531;
-    font-weight: bold;
-    color: #bababa;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px;
-    border: none;
-    cursor: pointer;
-    min-width: 250px;
-    &:hover {
-        background-color: #2d5b7c;
     }
 `;
