@@ -7,7 +7,8 @@
         "f6": "bP"
     },
     "squares_to_go": "all",
-    "ascendant": "true"
+    "ascendant": "true",
+    "my_time": "1:27"
     },
     {
     "position":{
@@ -15,7 +16,8 @@
         "d5": "bQ"
     },
     "squares_to_go": "all",
-    "ascendant": "false"
+    "ascendant": "false",
+    "my_time": "1:42"
     },
     {
         "position":{
@@ -28,7 +30,8 @@
             "e5": "bN"
         },
         "squares_to_go": "all",
-        "ascendant": "true"
+        "ascendant": "true",
+        "my_time": "2:30"
         },
     {
     "position":{
@@ -57,7 +60,8 @@
         "h8": "wB"
     },
     "squares_to_go": "h6",
-    "ascendant": "undefined"
+    "ascendant": "undefined",
+    "my_time": ""
     },
     {
     "position":{
@@ -85,7 +89,8 @@
         "d1": "wB", "f1": "wB", "e8": "wB", "g8": "wB"
     },
     "squares_to_go": "c4",
-    "ascendant": "undefined"
+    "ascendant": "undefined",
+    "my_time": ""
     },
     {
     "position":{
@@ -105,6 +110,7 @@
         "b8": "wB", "h8": "wB", "d5": "bK"
     },
     "squares_to_go": "f4",
-    "ascendant": "undefined"
+    "ascendant": "undefined",
+    "my_time": ""
     }
 ]

@@ -18,3 +18,11 @@ code {
   background-color: #373531;
   min-width: 170px;
 }
+
+@media (max-width: 640px) {
+  .select-exercise{
+    margin-right: 12px;
+    height: 40px;
+    font-size: small;
+  }
+}

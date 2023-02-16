@@ -9,7 +9,8 @@ import Box from '@mui/material/Box';
 const style = {
   width: '200px',
   height: '200px',
-  // backgroundColor: 'red',
+  borderRadius: '50%',
+  backgroundColor: '#363636',
 }
 
 function CircularProgressWithLabel(props) {
