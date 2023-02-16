@@ -110,9 +110,11 @@ function App() {
               <PenaltContainer  style={exercise<3? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
-                    {/* <Tooltip title="Each time you go to controlled squares the timer will be penalized with 10 seconds">
+                    <Tooltip title="Each time you go to controlled squares (i.e ilegal attempt) the timer will be penalized with 10 seconds added">
+                      <IconButton style={{color:"#bababa"}}>
                         <InfoIcon fontSize="small" />
-                    </Tooltip> */}
+                      </IconButton>
+                    </Tooltip>
                     <SpanSwitch>Penalization Mode</SpanSwitch>
                     <Switch onClick={() => setTimer("changeMode")} disabled={timerState.timeIsActive} checked={timerState.modePenalization} />
                   </SwitchRow>
