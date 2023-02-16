@@ -144,6 +144,9 @@ export default App;
 const Title = styled.h2`
     margin-right: 15px;
     margin-left: 15px;
+    @media (max-width: 640px) { 
+      font-size: 1.3em;
+    }
 `;
 
 const TitleContainer = styled.div`
@@ -151,6 +154,9 @@ const TitleContainer = styled.div`
     flex-direction: row;
     align-items: center;
     margin: 10px;
+    @media (max-width: 640px) { 
+      justify-content: center;
+    }
 `;
 
 const CenterContainer = styled.div`
@@ -206,7 +212,7 @@ const PenaltContainer = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    @media (max-width: 640px) { 
+    @media (max-width: 900px) { 
       order: 2;
       margin-top: 20px;
     }
@@ -238,7 +244,7 @@ const LeftContainer = styled.div`
     align-items: center;
     margin: 5px;
     margin-top: 10px;
-    @media (max-width: 640px) { 
+    @media (max-width: 900px) { 
       order: 2;
     }
 `;

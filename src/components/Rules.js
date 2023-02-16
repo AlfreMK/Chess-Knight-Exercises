@@ -50,7 +50,7 @@ const Container = styled.div`
     margin: 2%;
     max-width: 300px;
     margin-bottom: 40px;
-    @media (max-width: 640px) { 
+    @media (max-width: 900px) { 
         order: 5;
       }
 `;

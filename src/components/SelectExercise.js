@@ -20,6 +20,7 @@ const darkTheme = createTheme({
     },
   });
 
+
 function SelecExercise(props){
     const context = useContext(props.context);
     const timer = useContext(props.contextTimer);
@@ -37,14 +38,13 @@ function SelecExercise(props){
                 displayEmpty
                 mode="dark"
                 className='select-exercise'
-
                 >
-                <MenuItem value={3}>Check the King 1</MenuItem>
-                <MenuItem value={4}>Check the King 2</MenuItem>
-                <MenuItem value={5}>Check the King 3</MenuItem>
-                <MenuItem value={0}>Full Route 1</MenuItem>
-                <MenuItem value={1}>Full Route 2</MenuItem>
-                <MenuItem value={2}>Full Route 3</MenuItem>
+                <MenuItem value={3} className="exercise">Check the King 1</MenuItem>
+                <MenuItem value={4} className="exercise">Check the King 2</MenuItem>
+                <MenuItem value={5} className="exercise">Check the King 3</MenuItem>
+                <MenuItem value={0} className="exercise">Full Route 1</MenuItem>
+                <MenuItem value={1} className="exercise">Full Route 2</MenuItem>
+                <MenuItem value={2} className="exercise">Full Route 3</MenuItem>
             </Select>
         </ThemeProvider>
     )
