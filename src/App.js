@@ -110,9 +110,9 @@ function App() {
               <PenaltContainer  style={exercise<3? {}: invisibleStyle}>
                 <SwitchContainer>
                   <SwitchRow>
-                    <Tooltip title="Each time you go to controlled squares (i.e ilegal attempt) the timer will be penalized with 10 seconds added">
-                      <IconButton style={{color:"#bababa"}}>
-                        <InfoIcon fontSize="small" />
+                    <Tooltip title="Each time you go to controlled squares (i.e ilegal attempt) the timer will be penalized with 10 seconds added" arrow>
+                      <IconButton>
+                        <InfoIcon fontSize="small" style={{color:"#bababa"}}/>
                       </IconButton>
                     </Tooltip>
                     <SpanSwitch>Penalization Mode</SpanSwitch>
@@ -208,6 +208,7 @@ const PenaltContainer = styled.div`
     margin-bottom: 20px;
     @media (max-width: 640px) { 
       order: 2;
+      margin-top: 20px;
     }
 `;
 
