@@ -97,25 +97,25 @@ const getQueenSquaresAttacked = (square) => {
   );
 };
 
-const getKingSquaresAttacked = (square) => {
-  const squares = [];
-  const coord = CoordBySquare(square);
-  for (let i = -1; i < 2; i++) {
-    for (let j = -1; j < 2; j++) {
-      if (i !== 0 || j !== 0) {
-        if (
-          coord[0] + i >= 0 &&
-          coord[0] + i < 8 &&
-          coord[1] + j >= 0 &&
-          coord[1] + j < 8
-        ) {
-          squares.push(SquareByCoord([coord[0] + i, coord[1] + j]));
-        }
-      }
-    }
-  }
-  return squares;
-};
+// const getKingSquaresAttacked = (square) => {
+//   const squares = [];
+//   const coord = CoordBySquare(square);
+//   for (let i = -1; i < 2; i++) {
+//     for (let j = -1; j < 2; j++) {
+//       if (i !== 0 || j !== 0) {
+//         if (
+//           coord[0] + i >= 0 &&
+//           coord[0] + i < 8 &&
+//           coord[1] + j >= 0 &&
+//           coord[1] + j < 8
+//         ) {
+//           squares.push(SquareByCoord([coord[0] + i, coord[1] + j]));
+//         }
+//       }
+//     }
+//   }
+//   return squares;
+// };
 
 const getInvalidSquaresByPosition = (position) => {
   const squares = [];
