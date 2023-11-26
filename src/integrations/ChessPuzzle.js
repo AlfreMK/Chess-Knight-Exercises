@@ -26,7 +26,6 @@ class ChessPuzzle extends Component {
 
   componentDidMount() {
     // this.game = new Chess(this.state.fen);
-
     this.setState({
       squareStyles: {
         [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: {
@@ -153,6 +152,9 @@ export default function ChessPuzzleBoard(props) {
     >
       {({ position, onDrop, allowDrag, onSquareClick, squareStyles }) => (
         <Chessboard
+          boardStyle={{
+            userSelect: "none",
+          }}
           position={position}
           onDrop={onDrop}
           allowDrag={allowDrag}

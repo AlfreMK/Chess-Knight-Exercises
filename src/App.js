@@ -7,6 +7,8 @@ import { Switch, Tooltip, IconButton } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import SelectExercise from "./components/SelectExercise";
 import exercises from "./exercises.json";
+import Footer from "./components/Footer";
+import useTimer from "./hooks/useTimer";
 
 const TimerContext = createContext();
 const ExerciseContext = createContext();
@@ -16,29 +18,13 @@ const invisibleStyle = {
 };
 
 function App() {
-  const [timerState, setTimerState] = useState({
-    countPenalization: 0,
-    modePenalization: false,
-    time: 0,
-    timeIsActive: false,
-    hasReseted: true,
-    hasEnded: false,
-  });
-
-  const [timerStyle, setTimerStyle] = useState("normal");
-
+  const { timerState, setTimer, setTimerState, timerStyle } = useTimer();
   const [exercise, setExercise] = useState(3);
 
   const [squaresCount, setSquaresCount] = useState({
     squaresToGo: 0,
     squaresDone: 0,
   });
-
-  const updateStyle = (style, time) => {
-    setTimeout(function () {
-      setTimerStyle(style);
-    }, time);
-  };
 
   const setSquares = (option, num) => {
     switch (option) {
@@ -47,68 +33,6 @@ function App() {
         break;
       case "totalToGo":
         setSquaresCount({ ...squaresCount, squaresToGo: num, squaresDone: 0 });
-        break;
-      default:
-        break;
-    }
-  };
-
-  const setTimer = (option) => {
-    switch (option) {
-      case "playPauseTime":
-        setTimerState({
-          ...timerState,
-          timeIsActive: !timerState.timeIsActive,
-          hasReseted: false,
-          hasEnded: false,
-        });
-        break;
-      case "addPenalization":
-        if (timerState.timeIsActive) {
-          setTimerState({
-            ...timerState,
-            countPenalization: timerState.countPenalization + 1,
-          });
-          if (timerState.modePenalization) {
-            setTimerState({
-              ...timerState,
-              countPenalization: timerState.countPenalization + 1,
-              time: timerState.time + 10000,
-            });
-            setTimerStyle("red");
-            updateStyle("normal", 100);
-          }
-        }
-        break;
-      case "resetPenalization":
-        setTimerState({
-          ...timerState,
-          countPenalization: 0,
-          modePenalization: false,
-          time: 0,
-          timeIsActive: false,
-          hasReseted: true,
-          hasEnded: false,
-        });
-        break;
-      case "resetAll":
-        setTimerState({
-          ...timerState,
-          countPenalization: 0,
-          time: 0,
-          timeIsActive: false,
-          hasReseted: true,
-          hasEnded: false,
-        });
-        break;
-      case "changeMode":
-        setTimerState({
-          ...timerState,
-          modePenalization: !timerState.modePenalization,
-        });
-        break;
-      case "endGame":
-        setTimerState({ ...timerState, timeIsActive: false, hasEnded: true });
         break;
       default:
         break;
@@ -187,16 +111,7 @@ function App() {
               </SpanMyTime>
             </BorderChessBoard>
           </Container>
-          <Footer>
-            Made by{" "}
-            <Link href="https://github.com/AlfreMK"> Alfredo Medina</Link>.
-            Inspired by{" "}
-            <Link href="https://www.jairtrejo.com/"> Jair Trejo</Link> and
-            <Link href="https://www.danheisman.com/chess-exercises.html">
-              {" "}
-              Dan Heisman{" "}
-            </Link>
-          </Footer>
+          <Footer />
         </ExerciseContext.Provider>
       </TimerContext.Provider>
     </CenterContainer>
@@ -272,16 +187,6 @@ const BorderChessBoard = styled.div`
   margin: 5px;
 `;
 
-const Footer = styled.footer`
-  margin: 10px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-align: center;
-  @media (max-width: 640px) {
-    font-size: 0.8em;
-  }
-`;
-
 const SpanSwitch = styled.span`
   font-weight: bold;
 `;
@@ -336,14 +241,5 @@ const LeftContainer = styled.div`
   margin-top: 10px;
   @media (max-width: 900px) {
     order: 2;
-  }
-`;
-
-const Link = styled.a`
-  color: #4183c4;
-  text-decoration: none;
-  font-weight: bold;
-  &:hover {
-    text-decoration: underline;
   }
 `;
