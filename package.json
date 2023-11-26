@@ -14,6 +14,7 @@
     "chess.js": "^1.0.0-beta.3",
     "chessboardjsx": "^2.4.7",
     "react": "^18.2.0",
+    "react-chessboard": "^4.3.2",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.6",

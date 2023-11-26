@@ -1,18 +1,15 @@
 import React, { Component, useContext } from "react";
 import PropTypes from "prop-types";
 import {
-	getSquarestoGo,
-	getAllPiecesExceptKnight,
-	moveLikesKnight,
-	updateKnightInPosition,
-	getSquareOfKnight,
+  getSquarestoGo,
+  getAllPiecesExceptKnight,
+  moveLikesKnight,
+  updateKnightInPosition,
+  getSquareOfKnight,
   getInvalidSquaresByPosition,
 } from "./functions";
 // import { Chess } from "chess.js";
 import Chessboard from "chessboardjsx";
-
-
-
 
 // code extracted and adapted from https://chessboardjsx.com/integrations/move-validation
 class ChessPuzzle extends Component {
@@ -27,32 +24,34 @@ class ChessPuzzle extends Component {
     squareStyles: {},
   };
 
-
   componentDidMount() {
     // this.game = new Chess(this.state.fen);
-
     this.setState({
-        squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
-      });
-	
+      squareStyles: {
+        [this.state.squaresToGo[this.state.actualSquareToGoIndex]]: {
+          backgroundColor: "rgba(255, 255, 0, 0.4)",
+        },
+      },
+    });
   }
 
-  componentDidUpdate(){
-    if (!this.props.timeIsActive && this.props.hasReseted){
-        this.reset();
-        this.props.context.setTimerState({...this.props.context.timer, hasReseted: false});
-        
+  componentDidUpdate() {
+    if (!this.props.timeIsActive && this.props.hasReseted) {
+      this.reset();
+      this.props.context.setTimerState({
+        ...this.props.context.timer,
+        hasReseted: false,
+      });
     }
-    if (this.hasEnded() && !this.props.hasEnded){
-        this.props.context.setTimer("playPauseTime");
-        this.props.context.setTimer("endGame");
+    if (this.hasEnded() && !this.props.hasEnded) {
+      this.props.context.setTimer("playPauseTime");
+      this.props.context.setTimer("endGame");
     }
-    
   }
 
   hasEnded = () => {
     return this.state.actualSquareToGoIndex === this.state.squaresToGo.length;
-  }
+  };
 
   reset = () => {
     const position = this.props.exercise.position;
@@ -64,54 +63,66 @@ class ChessPuzzle extends Component {
       invalidSquares: getInvalidSquaresByPosition(position),
       squaresToGo: squaresToGo,
       actualSquareToGoIndex: 1,
-      squareStyles: { [squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
+      squareStyles: {
+        [squaresToGo[1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" },
+      },
     });
     this.props.contextExercise.setSquares("totalToGo", squaresToGo.length - 1);
-  }
+  };
 
   allowDrag = ({ piece }) => {
     // we can only pick up the white knight
     return piece === "wN";
-    };
-
+  };
 
   moveTheKnight = (sourceSquare, targetSquare) => {
-    if (moveLikesKnight(sourceSquare, targetSquare) && !this.state.invalidSquares.includes(targetSquare)) {
+    if (
+      moveLikesKnight(sourceSquare, targetSquare) &&
+      !this.state.invalidSquares.includes(targetSquare)
+    ) {
       this.setState({
-          position: updateKnightInPosition(this.props.exercise.position, targetSquare),
-          squareOfKnight: targetSquare,
+        position: updateKnightInPosition(
+          this.props.exercise.position,
+          targetSquare
+        ),
+        squareOfKnight: targetSquare,
       });
-      if (targetSquare === this.state.squaresToGo[this.state.actualSquareToGoIndex]){
-        this.props.contextExercise.setSquares("squaresDone", this.state.actualSquareToGoIndex);
-          this.setState({
-            actualSquareToGoIndex: this.state.actualSquareToGoIndex + 1,
-            actualSquareToGo: this.state.squaresToGo[this.state.actualSquareToGoIndex + 1],
-            squareStyles: { [this.state.squaresToGo[this.state.actualSquareToGoIndex + 1]]: { backgroundColor: "rgba(255, 255, 0, 0.4)" } }
+      if (
+        targetSquare ===
+        this.state.squaresToGo[this.state.actualSquareToGoIndex]
+      ) {
+        this.props.contextExercise.setSquares(
+          "squaresDone",
+          this.state.actualSquareToGoIndex
+        );
+        this.setState({
+          actualSquareToGoIndex: this.state.actualSquareToGoIndex + 1,
+          actualSquareToGo:
+            this.state.squaresToGo[this.state.actualSquareToGoIndex + 1],
+          squareStyles: {
+            [this.state.squaresToGo[this.state.actualSquareToGoIndex + 1]]: {
+              backgroundColor: "rgba(255, 255, 0, 0.4)",
+            },
+          },
         });
-      };
-      if (!this.props.timeIsActive){
+      }
+      if (!this.props.timeIsActive) {
         this.props.context.setTimer("playPauseTime");
       }
-      }
-    else if (moveLikesKnight(sourceSquare, targetSquare)){
-        this.props.context.setTimer("addPenalization")
+    } else if (moveLikesKnight(sourceSquare, targetSquare)) {
+      this.props.context.setTimer("addPenalization");
+    } else {
+      return;
     }
-      else {
-          return;
-      }
-    };
+  };
 
   onDrop = ({ sourceSquare, targetSquare }) => {
     this.moveTheKnight(sourceSquare, targetSquare);
-    
   };
 
-  onSquareClick = square => {
+  onSquareClick = (square) => {
     this.moveTheKnight(this.state.squareOfKnight, square);
   };
-
-
-
 
   render() {
     const { position, squareStyles } = this.state;
@@ -126,28 +137,24 @@ class ChessPuzzle extends Component {
   }
 }
 
-
-
 export default function ChessPuzzleBoard(props) {
   const context = useContext(props.context);
   const contextExercise = useContext(props.contextExercise);
   return (
     <ChessPuzzle
       context={context}
-	    exercise={props.exercise}
+      exercise={props.exercise}
       contextExercise={contextExercise}
       timeIsActive={context.timer.timeIsActive}
       hasReseted={context.timer.hasReseted}
       hasEnded={context.timer.hasEnded}
       penalizedMode={context.timer.penalizedMode}
-      >
-      {({
-        position,
-        onDrop,
-        allowDrag,
-        onSquareClick,
-        squareStyles }) => (
+    >
+      {({ position, onDrop, allowDrag, onSquareClick, squareStyles }) => (
         <Chessboard
+          boardStyle={{
+            userSelect: "none",
+          }}
           position={position}
           onDrop={onDrop}
           allowDrag={allowDrag}
@@ -157,7 +164,6 @@ export default function ChessPuzzleBoard(props) {
           calcWidth={({ screenWidth }) => {
             return Math.min(screenWidth - 32 - 8, 560);
           }}
-
         />
       )}
     </ChessPuzzle>

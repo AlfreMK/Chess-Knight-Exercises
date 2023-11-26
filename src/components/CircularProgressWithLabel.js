@@ -1,35 +1,34 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-
+import * as React from "react";
+import PropTypes from "prop-types";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 // code extracted and adapted from https://mui.com/material-ui/react-progress/
 
 const style = {
-  width: '200px',
-  height: '200px',
-  borderRadius: '50%',
-  backgroundColor: '#363636',
-}
+  width: "200px",
+  height: "200px",
+  borderRadius: "50%",
+  backgroundColor: "#363636",
+};
 
 function CircularProgressWithLabel(props) {
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress variant="determinate" {...props} style={style}/>
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress variant="determinate" {...props} style={style} />
       <Box
         sx={{
           top: 0,
           left: 0,
           bottom: 0,
           right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-          {props.children}
+        {props.children}
       </Box>
     </Box>
   );
