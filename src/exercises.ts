@@ -1,22 +1,53 @@
 import type { Square, PieceSymbol, Color } from 'chess.js'
 
+export const EXERCISE_TYPES = {
+  CHECK_THE_KING: 'check-the-king',
+  FULL_ROUTE: 'full-route',
+} as const
+
+export type ExerciseType = (typeof EXERCISE_TYPES)[keyof typeof EXERCISE_TYPES]
+
+export const SQUARE_ORDER = {
+  ASCENDING: 'ascending',
+  DESCENDING: 'descending',
+} as const
+
+export type SquareOrder = (typeof SQUARE_ORDER)[keyof typeof SQUARE_ORDER]
+
 type BaseExercise = {
   name: string
   position: Partial<Record<Square, `${Color}${Uppercase<PieceSymbol>}`>>
 }
 
 type CheckTheKingExercise = BaseExercise & {
+  type: typeof EXERCISE_TYPES.CHECK_THE_KING
   squaresToGo: Square
 }
 
 type FullRouteExercise = BaseExercise & {
+  type: typeof EXERCISE_TYPES.FULL_ROUTE
   squaresToGo: 'all'
-  isSquareOrderAscendant: boolean
+  squareOrder: SquareOrder
   alfredTime: `${number}:${number}`
+}
+
+export type Exercise = CheckTheKingExercise | FullRouteExercise
+
+export const isFullRouteExercise = (
+  exercise: Exercise,
+): exercise is FullRouteExercise => {
+  return exercise.type === EXERCISE_TYPES.FULL_ROUTE
+}
+
+export const isCheckTheKingExercise = (
+  exercise: Exercise,
+): exercise is CheckTheKingExercise => {
+  return exercise.type === EXERCISE_TYPES.CHECK_THE_KING
 }
 
 export const FULL_ROUTE_EXERCISES = [
   {
+    type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 1',
     position: {
       a1: 'wN',
@@ -26,20 +57,22 @@ export const FULL_ROUTE_EXERCISES = [
       f6: 'bP',
     },
     squaresToGo: 'all',
-    isSquareOrderAscendant: true,
+    squareOrder: SQUARE_ORDER.ASCENDING,
     alfredTime: '1:27',
   },
   {
+    type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 2',
     position: {
       h8: 'wN',
       d5: 'bQ',
     },
     squaresToGo: 'all',
-    isSquareOrderAscendant: false,
+    squareOrder: SQUARE_ORDER.DESCENDING,
     alfredTime: '1:42',
   },
   {
+    type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 3',
     position: {
       b1: 'wN',
@@ -51,13 +84,14 @@ export const FULL_ROUTE_EXERCISES = [
       e5: 'bN',
     },
     squaresToGo: 'all',
-    isSquareOrderAscendant: true,
+    squareOrder: SQUARE_ORDER.ASCENDING,
     alfredTime: '2:30',
   },
 ] as const satisfies FullRouteExercise[]
 
 export const CHECK_THE_KING_EXERCISES = [
   {
+    type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 1',
     position: {
       f3: 'wN',
@@ -98,6 +132,7 @@ export const CHECK_THE_KING_EXERCISES = [
     squaresToGo: 'h6',
   },
   {
+    type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 2',
     position: {
       f3: 'wN',
@@ -138,6 +173,7 @@ export const CHECK_THE_KING_EXERCISES = [
     squaresToGo: 'c4',
   },
   {
+    type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 3',
     position: {
       f3: 'wN',
