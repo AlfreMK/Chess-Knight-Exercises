@@ -3,14 +3,16 @@ import type { Square, PieceSymbol, Color } from 'chess.js'
 type BaseExercise = {
   name: string
   position: Partial<Record<Square, `${Color}${Uppercase<PieceSymbol>}`>>
-  squaresToGo: Square | 'all'
 }
 
-type CheckTheKingExercise = BaseExercise
+type CheckTheKingExercise = BaseExercise & {
+  squaresToGo: Square
+}
 
 type FullRouteExercise = BaseExercise & {
+  squaresToGo: 'all'
   isSquareOrderAscendant: boolean
-  alfredTime: string
+  alfredTime: `${number}:${number}`
 }
 
 export const FULL_ROUTE_EXERCISES = [
