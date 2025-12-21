@@ -16,6 +16,7 @@ export const ChessboardPuzzle = ({
   currentFen,
   squaresToGo,
   onKnightMove,
+  onIllegalAttempt,
 }: {
   exercise: Exercise
   currentFen: string
@@ -27,6 +28,7 @@ export const ChessboardPuzzle = ({
     targetSquare: Square
     newFen: string
   }) => void
+  onIllegalAttempt: () => void
 }) => {
   const currentKnightSourceSquare = useMemo(() => {
     const chess = new Chess(currentFen, { skipValidation: true })
@@ -43,21 +45,26 @@ export const ChessboardPuzzle = ({
     if (!currentKnightSourceSquare) {
       return false
     }
+    const isThereAnyPieceOnTargetSquare = isThereAnyPieceOnSquare({
+      fen: currentFen,
+      square: targetSquare,
+    })
+    const isSquareBeingAttackedByOpponentOnTargetSquare = isSquareBeingAttackedByOpponent({
+      fen: currentFen,
+      square: targetSquare,
+      color: exercise.userColor,
+    })
     if (
       isKnightMove({
         sourceSquare: currentKnightSourceSquare,
         targetSquare,
-      }) &&
-      !isThereAnyPieceOnSquare({
-        fen: currentFen,
-        square: targetSquare,
-      }) &&
-      !isSquareBeingAttackedByOpponent({
-        fen: currentFen,
-        square: targetSquare,
-        color: exercise.userColor,
       })
     ) {
+      const isIllegalAttempt = isThereAnyPieceOnTargetSquare || isSquareBeingAttackedByOpponentOnTargetSquare
+      if (isIllegalAttempt) {
+        onIllegalAttempt()
+        return false
+      }
       const newFen = buildFenWithKnightMove({
         fen: currentFen,
         color: exercise.userColor,

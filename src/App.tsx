@@ -9,11 +9,13 @@ import {
   type Exercise,
 } from '@/exercises'
 import { RulesText } from '@/components/pages/main/rules-text'
+import { PenalizationSwitch } from '@/components/pages/main/penalization-switch'
 import { useTimer } from '@/hooks/useTimer'
 import { useSquaresToGo } from '@/hooks/useSquaresToGo'
 import { useCurrentFen } from '@/hooks/useCurrentFen'
 import type { Square } from 'chess.js'
 import { getPercentageOfCompletion } from './lib/chessUtils'
+import { usePenalization } from '@/hooks/usePenalization'
 
 const EXERCISES = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
 
@@ -36,6 +38,14 @@ function App() {
     () => currentExercise.name,
     [currentExercise],
   )
+
+  const {
+    isPenalizationEnabled,
+    setIsPenalizationEnabled,
+    illegalAttemptsCount,
+    resetIllegalAttemptsCount,
+    incrementIllegalAttemptsCount,
+  } = usePenalization()
 
   const { currentFen, setCurrentFen, resetFen } = useCurrentFen(currentExercise)
 
@@ -92,6 +102,7 @@ function App() {
     resetTimer()
     resetSquaresToGo()
     resetFen()
+    resetIllegalAttemptsCount()
   }
 
   return (
@@ -104,6 +115,13 @@ function App() {
       <div className="w-full flex items-center justify-center gap-6 py-6 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-8 max-w-[300px]">
           <RulesText exercise={currentExercise} />
+          <PenalizationSwitch
+            exercise={currentExercise}
+            illegalAttemptsCount={illegalAttemptsCount}
+            isPenalizationEnabled={isPenalizationEnabled}
+            isSwitchDisabled={isTimerActive}
+            onPenalizationChange={setIsPenalizationEnabled}
+          />
           <Timer
             timeInMs={timeInMs}
             percentageOfCompletion={percentageOfCompletion}
@@ -115,6 +133,7 @@ function App() {
           currentFen={currentFen}
           squaresToGo={squaresToGo}
           onKnightMove={onKnightMove}
+          onIllegalAttempt={incrementIllegalAttemptsCount}
         />
       </div>
       <Footer />
