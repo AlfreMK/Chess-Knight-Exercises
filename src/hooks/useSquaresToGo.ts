@@ -1,40 +1,16 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
-import { type Square } from 'chess.js'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import type { Exercise } from '@/exercises'
-import { getSquaresToGo } from './utils'
-import { buildFenFromPosition } from '@/lib/chessUtils'
-
-/**
- * Hook to manage the current FEN of the chessboard
- * @param exercise - The exercise to get the current FEN for
- * @returns The current FEN and a function to set the current FEN
- */
-export const useCurrentFen = (exercise: Exercise) => {
-  const initialFen = useMemo(
-    () => buildFenFromPosition(exercise.position),
-    [exercise.position],
-  )
-  const [currentFen, setCurrentFen] = useState(initialFen)
-
-  useEffect(() => {
-    setCurrentFen(initialFen)
-  }, [initialFen])
-  return { currentFen, setCurrentFen }
-}
-
-export type OnSquaresToGoChange = ({
-  prevSquaresToGo,
-  newSquaresToGo,
-}: {
-  prevSquaresToGo: Square[]
-  newSquaresToGo: Square[]
-}) => void
+import type { Square } from 'chess.js'
+import { getSquaresToGo } from '@/components/pages/main/chessboard-puzzle/utils'
 
 /**
  * Hook to manage the squares to go
  * @param exercise - The exercise to get the squares to go for
  * @param onSquaresToGoChange - The function to call when the squares to go change
- * @returns The squares to go and a function to remove a square from the squares to go
+ * @returns an object with:
+ * - squaresToGo: the squares to go
+ * - removeSquareFromSquaresToGo: a function to remove a square from the squares to go
+ * - resetSquaresToGo: a function to reset the squares to go
  */
 export const useSquaresToGo = ({
   exercise,
@@ -53,10 +29,15 @@ export const useSquaresToGo = ({
   const [squaresToGo, setSquaresToGo] = useState(initialSquaresToGo)
 
   const removeSquareFromSquaresToGo = (square: Square) => {
+    // We only remove the first square to go if it is the same as the square to remove
     const squareToGo = squaresToGo.length > 0 ? squaresToGo[0] : undefined
     if (squareToGo === square) {
       setSquaresToGo(squaresToGo.slice(1))
     }
+  }
+
+  const resetSquaresToGo = () => {
+    setSquaresToGo(initialSquaresToGo)
   }
 
   useEffect(() => {
@@ -91,5 +72,5 @@ export const useSquaresToGo = ({
     prevExerciseRef.current = exercise
   }, [squaresToGo, exercise, onSquaresToGoChange])
 
-  return { squaresToGo, removeSquareFromSquaresToGo }
+  return { squaresToGo, removeSquareFromSquaresToGo, resetSquaresToGo }
 }

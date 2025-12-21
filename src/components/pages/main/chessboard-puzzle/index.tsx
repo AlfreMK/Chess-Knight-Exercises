@@ -9,26 +9,24 @@ import {
   isSquareBeingAttackedByOpponent,
 } from '@/lib/chessUtils'
 import { getSquareStyles } from './utils'
-import {
-  useCurrentFen,
-  useSquaresToGo,
-  type OnSquaresToGoChange,
-} from './hooks'
 
 export const ChessboardPuzzle = ({
   exercise,
-  onSquaresToGoChange,
+  currentFen,
+  squaresToGo,
+  onKnightMove,
 }: {
   exercise: Exercise
-  onSquaresToGoChange: OnSquaresToGoChange
+  currentFen: string
+  squaresToGo: Square[]
+  onKnightMove: ({
+    targetSquare,
+    newFen,
+  }: {
+    targetSquare: Square
+    newFen: string
+  }) => void
 }) => {
-  const { currentFen, setCurrentFen } = useCurrentFen(exercise)
-
-  const { squaresToGo, removeSquareFromSquaresToGo } = useSquaresToGo({
-    exercise,
-    onSquaresToGoChange,
-  })
-
   const currentKnightSourceSquare = useMemo(() => {
     const chess = new Chess(currentFen, { skipValidation: true })
     const squares = chess.findPiece({ color: exercise.userColor, type: 'n' })
@@ -65,8 +63,7 @@ export const ChessboardPuzzle = ({
         sourceSquare: currentKnightSourceSquare,
         targetSquare,
       })
-      setCurrentFen(newFen)
-      removeSquareFromSquaresToGo(targetSquare)
+      onKnightMove({ targetSquare, newFen })
       return true
     }
     return false

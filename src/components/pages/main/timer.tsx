@@ -1,23 +1,24 @@
 import { AnimatedCircularProgressBar } from '@/components/ui/animated-circular-progress-bar'
 import { Button } from '@/components/ui/button'
+import { useMemo } from 'react'
 
 export const Timer = ({
   timeInMs,
   percentageOfCompletion,
-  resetTimer,
+  reset,
 }: {
   timeInMs: number
   percentageOfCompletion: number
-  resetTimer: () => void
+  reset: () => void
 }) => {
+  const isButtonDisabled = useMemo(() => timeInMs === 0, [timeInMs])
   return (
-    <AnimatedCircularProgressBar
-      value={percentageOfCompletion}
-      size={200}
-    >
-      <div className="flex flex-col items-center justify-center">
+    <AnimatedCircularProgressBar value={percentageOfCompletion} size={200}>
+      <div className="flex flex-col items-center justify-center gap-2">
         <div>{formatTimeForDisplay(timeInMs)}</div>
-        <Button onClick={resetTimer}>Reset</Button>
+        <Button onClick={reset} disabled={isButtonDisabled}>
+          Reset
+        </Button>
       </div>
     </AnimatedCircularProgressBar>
   )

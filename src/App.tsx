@@ -9,6 +9,10 @@ import {
   type Exercise,
 } from '@/exercises'
 import { RulesText } from '@/components/pages/main/rules-text'
+import { useTimer } from '@/hooks/useTimer'
+import { useSquaresToGo } from '@/hooks/useSquaresToGo'
+import { useCurrentFen } from '@/hooks/useCurrentFen'
+import type { Square } from 'chess.js'
 
 const ITEMS = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
 
@@ -32,9 +36,52 @@ function App() {
     [currentExercise],
   )
 
+  const { currentFen, setCurrentFen, resetFen } = useCurrentFen(currentExercise)
+
+  const { timeInMs, isTimerActive, startTimer, stopTimer, resetTimer } =
+    useTimer()
+
+  const onSquaresToGoChange = ({
+    newSquaresToGo,
+  }: {
+    newSquaresToGo: Square[]
+  }) => {
+    if (newSquaresToGo.length === 0) {
+      stopTimer()
+    }
+  }
+
+  const { squaresToGo, removeSquareFromSquaresToGo, resetSquaresToGo } =
+    useSquaresToGo({
+      exercise: currentExercise,
+      onSquaresToGoChange,
+    })
+
   const onSelectExercise = (exerciseName: string) => {
     setCurrentExercise(EXERCISES_BY_NAME[exerciseName])
+    resetTimer()
   }
+
+  const onKnightMove = ({
+    targetSquare,
+    newFen,
+  }: {
+    targetSquare: Square
+    newFen: string
+  }) => {
+    setCurrentFen(newFen)
+    removeSquareFromSquaresToGo(targetSquare)
+    if (!isTimerActive) {
+      startTimer()
+    }
+  }
+
+  const onReset = () => {
+    resetTimer()
+    resetSquaresToGo()
+    resetFen()
+  }
+
   return (
     <div className="flex min-h-svh flex-col items-center p-6">
       <Header
@@ -46,12 +93,17 @@ function App() {
         <div className="flex flex-col items-center justify-center gap-8 max-w-[300px]">
           <RulesText exercise={currentExercise} />
           <Timer
-            timeInMs={10000}
+            timeInMs={timeInMs}
             percentageOfCompletion={50}
-            resetTimer={() => {}}
+            reset={onReset}
           />
         </div>
-        <ChessboardPuzzle exercise={currentExercise} onSquaresToGoChange={() => {}} />
+        <ChessboardPuzzle
+          exercise={currentExercise}
+          currentFen={currentFen}
+          squaresToGo={squaresToGo}
+          onKnightMove={onKnightMove}
+        />
       </div>
       <Footer />
     </div>
