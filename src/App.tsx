@@ -13,20 +13,21 @@ import { useTimer } from '@/hooks/useTimer'
 import { useSquaresToGo } from '@/hooks/useSquaresToGo'
 import { useCurrentFen } from '@/hooks/useCurrentFen'
 import type { Square } from 'chess.js'
+import { getPercentageOfCompletion } from './lib/chessUtils'
 
-const ITEMS = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
+const EXERCISES = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
 
-const EXERCISES_BY_NAME = ITEMS.reduce((acc, exercise) => {
+const EXERCISES_BY_NAME = EXERCISES.reduce((acc, exercise) => {
   acc[exercise.name] = exercise
   return acc
-}, {} as Record<string, Exercise>)
+}, {} as { [exerciseName: string]: Exercise })
 
-const SELECT_ITEMS = ITEMS.map((exercise) => ({
+const SELECT_ITEMS = EXERCISES.map((exercise) => ({
   label: exercise.name,
   value: exercise.name as string,
 }))
 
-const initialExercise = ITEMS[0]
+const initialExercise = EXERCISES[0]
 
 function App() {
   const [currentExercise, setCurrentExercise] =
@@ -51,11 +52,22 @@ function App() {
     }
   }
 
-  const { squaresToGo, removeSquareFromSquaresToGo, resetSquaresToGo } =
-    useSquaresToGo({
-      exercise: currentExercise,
-      onSquaresToGoChange,
+  const {
+    initialSquaresToGo,
+    squaresToGo,
+    removeSquareFromSquaresToGo,
+    resetSquaresToGo,
+  } = useSquaresToGo({
+    exercise: currentExercise,
+    onSquaresToGoChange,
+  })
+
+  const percentageOfCompletion = useMemo(() => {
+    return getPercentageOfCompletion({
+      squaresToGo: initialSquaresToGo.length,
+      squaresCompleted: initialSquaresToGo.length - squaresToGo.length,
     })
+  }, [initialSquaresToGo, squaresToGo])
 
   const onSelectExercise = (exerciseName: string) => {
     setCurrentExercise(EXERCISES_BY_NAME[exerciseName])
@@ -94,7 +106,7 @@ function App() {
           <RulesText exercise={currentExercise} />
           <Timer
             timeInMs={timeInMs}
-            percentageOfCompletion={50}
+            percentageOfCompletion={percentageOfCompletion}
             reset={onReset}
           />
         </div>

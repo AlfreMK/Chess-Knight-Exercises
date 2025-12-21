@@ -13,7 +13,10 @@ export const Timer = ({
 }) => {
   const isButtonDisabled = useMemo(() => timeInMs === 0, [timeInMs])
   return (
-    <AnimatedCircularProgressBar value={percentageOfCompletion} size={200}>
+    <AnimatedCircularProgressBar
+      value={percentageOfCompletion}
+      size={200}
+    >
       <div className="flex flex-col items-center justify-center gap-2">
         <div>{formatTimeForDisplay(timeInMs)}</div>
         <Button onClick={reset} disabled={isButtonDisabled}>

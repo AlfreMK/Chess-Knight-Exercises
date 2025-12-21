@@ -72,5 +72,10 @@ export const useSquaresToGo = ({
     prevExerciseRef.current = exercise
   }, [squaresToGo, exercise, onSquaresToGoChange])
 
-  return { squaresToGo, removeSquareFromSquaresToGo, resetSquaresToGo }
+  return {
+    initialSquaresToGo,
+    squaresToGo,
+    removeSquareFromSquaresToGo,
+    resetSquaresToGo,
+  }
 }
