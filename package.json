@@ -12,6 +12,8 @@
   "dependencies": {
     "@radix-ui/react-select": "~2.2",
     "@radix-ui/react-slot": "~1.2",
+    "@radix-ui/react-switch": "~1.2",
+    "@radix-ui/react-tooltip": "~1.2",
     "@tailwindcss/vite": "~4.1",
     "chess.js": "~1.4",
     "class-variance-authority": "~0.7",
