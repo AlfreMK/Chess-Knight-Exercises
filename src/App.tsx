@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Footer } from '@/components/pages/main/footer'
-import { ChessboardWrapper } from '@/components/pages/main/chessboard-wrapper'
+import { ChessboardPuzzle } from '@/components/pages/main/chessboard-puzzle'
 import { Header } from '@/components/pages/main/header'
 import { Timer } from '@/components/pages/main/timer'
 import {
@@ -42,7 +42,7 @@ function App() {
         value={currentExerciseName}
         onValueChange={onSelectExercise}
       />
-      <div className="w-full flex items-center justify-center gap-8 py-6">
+      <div className="w-full flex items-center justify-center gap-6 py-6 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-8 max-w-[300px]">
           <RulesText exercise={currentExercise} />
           <Timer
@@ -51,7 +51,7 @@ function App() {
             resetTimer={() => {}}
           />
         </div>
-        <ChessboardWrapper />
+        <ChessboardPuzzle exercise={currentExercise} onSquaresToGoChange={() => {}} />
       </div>
       <Footer />
     </div>

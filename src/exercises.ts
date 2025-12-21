@@ -14,19 +14,24 @@ export const SQUARE_ORDER = {
 
 export type SquareOrder = (typeof SQUARE_ORDER)[keyof typeof SQUARE_ORDER]
 
+export type PieceType = `${Color}${Uppercase<PieceSymbol>}`
+
+export type Position = Partial<Record<Square, PieceType>>
+
 type BaseExercise = {
   name: string
-  position: Partial<Record<Square, `${Color}${Uppercase<PieceSymbol>}`>>
+  position: Position
+  userColor: Color
 }
 
 type CheckTheKingExercise = BaseExercise & {
   type: typeof EXERCISE_TYPES.CHECK_THE_KING
-  squaresToGo: Square
+  squareToGo: Square
 }
 
 type FullRouteExercise = BaseExercise & {
   type: typeof EXERCISE_TYPES.FULL_ROUTE
-  squaresToGo: 'all'
+  squareToGo: 'all'
   squareOrder: SquareOrder
   alfredTime: `${number}:${number}`
 }
@@ -49,6 +54,7 @@ export const FULL_ROUTE_EXERCISES = [
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 1',
+    userColor: 'w',
     position: {
       a1: 'wN',
       c3: 'bP',
@@ -56,24 +62,26 @@ export const FULL_ROUTE_EXERCISES = [
       f3: 'bP',
       f6: 'bP',
     },
-    squaresToGo: 'all',
+    squareToGo: 'all',
     squareOrder: SQUARE_ORDER.ASCENDING,
     alfredTime: '1:27',
   },
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 2',
+    userColor: 'w',
     position: {
       h8: 'wN',
       d5: 'bQ',
     },
-    squaresToGo: 'all',
+    squareToGo: 'all',
     squareOrder: SQUARE_ORDER.DESCENDING,
     alfredTime: '1:42',
   },
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
     name: 'Full Route 3',
+    userColor: 'w',
     position: {
       b1: 'wN',
       a1: 'bN',
@@ -83,7 +91,7 @@ export const FULL_ROUTE_EXERCISES = [
       d4: 'bN',
       e5: 'bN',
     },
-    squaresToGo: 'all',
+    squareToGo: 'all',
     squareOrder: SQUARE_ORDER.ASCENDING,
     alfredTime: '2:30',
   },
@@ -93,6 +101,7 @@ export const CHECK_THE_KING_EXERCISES = [
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 1',
+    userColor: 'w',
     position: {
       f3: 'wN',
       b3: 'wP',
@@ -129,11 +138,12 @@ export const CHECK_THE_KING_EXERCISES = [
       g8: 'bK',
       h8: 'wB',
     },
-    squaresToGo: 'h6',
+    squareToGo: 'h6',
   },
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 2',
+    userColor: 'w',
     position: {
       f3: 'wN',
       b3: 'wP',
@@ -170,11 +180,12 @@ export const CHECK_THE_KING_EXERCISES = [
       e8: 'wB',
       g8: 'wB',
     },
-    squaresToGo: 'c4',
+    squareToGo: 'c4',
   },
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
     name: 'Check the King 3',
+    userColor: 'w',
     position: {
       f3: 'wN',
       b3: 'wP',
@@ -203,6 +214,6 @@ export const CHECK_THE_KING_EXERCISES = [
       h8: 'wB',
       d5: 'bK',
     },
-    squaresToGo: 'f4',
+    squareToGo: 'f4',
   },
 ] as const satisfies CheckTheKingExercise[]
