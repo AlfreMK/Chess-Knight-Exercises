@@ -17,6 +17,8 @@ import type { Square } from 'chess.js'
 import { getPercentageOfCompletion } from './lib/chessUtils'
 import { usePenalization } from '@/hooks/usePenalization'
 
+const PENALIZATION_TIME_IN_MS = 10000 // 10 seconds
+
 const EXERCISES = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
 
 const EXERCISES_BY_NAME = EXERCISES.reduce((acc, exercise) => {
@@ -49,8 +51,14 @@ function App() {
 
   const { currentFen, setCurrentFen, resetFen } = useCurrentFen(currentExercise)
 
-  const { timeInMs, isTimerActive, startTimer, stopTimer, resetTimer } =
-    useTimer()
+  const {
+    timeInMs,
+    isTimerActive,
+    startTimer,
+    stopTimer,
+    resetTimer,
+    addTime,
+  } = useTimer()
 
   const onSquaresToGoChange = ({
     newSquaresToGo,
@@ -105,6 +113,11 @@ function App() {
     resetIllegalAttemptsCount()
   }
 
+  const onIllegalAttempt = () => {
+    addTime(PENALIZATION_TIME_IN_MS)
+    incrementIllegalAttemptsCount()
+  }
+
   return (
     <div className="flex min-h-svh flex-col items-center p-6">
       <Header
@@ -120,7 +133,7 @@ function App() {
             illegalAttemptsCount={illegalAttemptsCount}
             isPenalizationEnabled={isPenalizationEnabled}
             isSwitchDisabled={isTimerActive}
-            onPenalizationChange={setIsPenalizationEnabled}
+            onPenalizationEnabledChange={setIsPenalizationEnabled}
           />
           <Timer
             timeInMs={timeInMs}
@@ -133,7 +146,7 @@ function App() {
           currentFen={currentFen}
           squaresToGo={squaresToGo}
           onKnightMove={onKnightMove}
-          onIllegalAttempt={incrementIllegalAttemptsCount}
+          onIllegalAttempt={onIllegalAttempt}
         />
       </div>
       <Footer />

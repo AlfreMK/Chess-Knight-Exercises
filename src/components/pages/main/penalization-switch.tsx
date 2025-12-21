@@ -10,15 +10,15 @@ import { type Exercise, isFullRouteExercise } from '@/exercises'
 export const PenalizationSwitch = ({
   exercise,
   illegalAttemptsCount,
-  isPenalizationEnabled,
   isSwitchDisabled,
-  onPenalizationChange,
+  isPenalizationEnabled,
+  onPenalizationEnabledChange,
 }: {
   exercise: Exercise
   illegalAttemptsCount: number
-  isPenalizationEnabled: boolean
   isSwitchDisabled: boolean
-  onPenalizationChange: (isPenalizationEnabled: boolean) => void
+  isPenalizationEnabled: boolean
+  onPenalizationEnabledChange: (isPenalizationEnabled: boolean) => void
 }) => {
   if (!isFullRouteExercise(exercise)) {
     return null
@@ -41,7 +41,7 @@ export const PenalizationSwitch = ({
         <span>Penalization Mode</span>
         <Switch
           checked={isPenalizationEnabled}
-          onCheckedChange={onPenalizationChange}
+          onCheckedChange={onPenalizationEnabledChange}
           disabled={isSwitchDisabled}
         />
       </div>

@@ -38,12 +38,18 @@ type FullRouteExercise = BaseExercise & {
 
 export type Exercise = CheckTheKingExercise | FullRouteExercise
 
+/**
+ * Type guard to check if the exercise is a full route exercise
+ */
 export const isFullRouteExercise = (
   exercise: Exercise,
 ): exercise is FullRouteExercise => {
   return exercise.type === EXERCISE_TYPES.FULL_ROUTE
 }
 
+/**
+ * Type guard to check if the exercise is a check the king exercise
+ */
 export const isCheckTheKingExercise = (
   exercise: Exercise,
 ): exercise is CheckTheKingExercise => {

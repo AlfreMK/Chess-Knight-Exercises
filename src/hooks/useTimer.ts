@@ -11,6 +11,10 @@ export const useTimer = () => {
     setIsTimerActive(false)
   }
 
+  const addTime = (timeToAddInMs: number) => {
+    setTimeInMs((prev) => prev + timeToAddInMs)
+  }
+
   const startTimer = () => {
     setIsTimerActive(true)
   }
@@ -33,5 +37,12 @@ export const useTimer = () => {
     }
   }, [isTimerActive])
 
-  return { timeInMs, isTimerActive, resetTimer, startTimer, stopTimer }
+  return {
+    timeInMs,
+    isTimerActive,
+    resetTimer,
+    startTimer,
+    stopTimer,
+    addTime,
+  }
 }
