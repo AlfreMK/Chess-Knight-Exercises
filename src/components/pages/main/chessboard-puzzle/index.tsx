@@ -9,6 +9,7 @@ import {
   isSquareBeingAttackedByOpponent,
 } from '@/lib/chessUtils'
 import { getSquareStyles } from './utils'
+import { FooterText } from './footer-text'
 
 export const ChessboardPuzzle = ({
   exercise,
@@ -99,6 +100,7 @@ export const ChessboardPuzzle = ({
           },
         }}
       />
+      <FooterText exercise={exercise} />
     </div>
   )
 }
