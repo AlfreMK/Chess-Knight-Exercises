@@ -24,14 +24,14 @@ export const PenalizationSwitch = ({
     return null
   }
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col items-center">
+      <div className="flex items-center gap-3 bg-contrast-low rounded-md p-5">
         <Tooltip>
           <TooltipTrigger asChild>
             <InfoIcon size="16" />
           </TooltipTrigger>
           <TooltipContent>
-            <p>
+            <p className="max-w-[178px]">
               Each time you go to controlled squares (i.e illegal attempt) the
               timer will be penalized with{' '}
               <span className="font-bold">10 seconds</span> added
@@ -45,10 +45,14 @@ export const PenalizationSwitch = ({
           disabled={isSwitchDisabled}
         />
       </div>
-      <div>
-        {illegalAttemptsCount}{' '}
-        <span className="font-bold text-red-500">ILLEGAL ATTEMPTS</span>
-      </div>
+      {
+        isPenalizationEnabled && (
+          <div className="bg-contrast-lowest rounded-b-md p-3 text-sm">
+            {illegalAttemptsCount}{' '}
+            <span className="font-bold text-secondary">ILLEGAL ATTEMPTS</span>
+          </div>
+        )
+      }
     </div>
   )
 }

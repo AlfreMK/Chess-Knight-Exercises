@@ -17,7 +17,7 @@ export function AnimatedCircularProgressBar({
   value = 0,
   size = 160,
   gaugePrimaryColor = 'var(--color-primary)',
-  gaugeSecondaryColor = 'var(--color-secondary)',
+  gaugeSecondaryColor = 'var(--color-contrast-low)',
   className,
   children,
 }: AnimatedCircularProgressBarProps) {

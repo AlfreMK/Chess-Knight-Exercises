@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="text-center mt-10 mb-10">
+    <footer className="text-center">
       Made by <Link href="https://github.com/AlfreMK"> Alfredo Medina</Link>.
       Inspired by <Link href="https://www.jairtrejo.com/"> Jair Trejo</Link> and
       <Link href="https://www.danheisman.com/chess-exercises.html">
@@ -19,7 +19,7 @@ const Link = ({
   children: React.ReactNode
 }) => {
   return (
-    <a href={href} className="font-bold hover:underline">
+    <a href={href} className="font-bold hover:underline text-primary">
       {children}
     </a>
   )

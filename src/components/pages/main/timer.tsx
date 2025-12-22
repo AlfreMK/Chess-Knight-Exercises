@@ -19,7 +19,11 @@ export const Timer = ({
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <div>{formatTimeForDisplay(timeInMs)}</div>
-        <Button onClick={reset} disabled={isButtonDisabled}>
+        <Button
+          variant="outline"
+          onClick={reset}
+          disabled={isButtonDisabled}
+        >
           Reset
         </Button>
       </div>

@@ -86,10 +86,9 @@ export const ChessboardPuzzle = ({
 
   return (
     <div
-      className="p-1 bg-border"
+      className="p-1 bg-contrast-low flex flex-col"
       style={{
         maxWidth: '570px',
-        maxHeight: '570px',
       }}
     >
       <Chessboard
@@ -114,7 +113,7 @@ export const ChessboardPuzzle = ({
           },
         }}
       />
-      <FooterText exercise={exercise} />
+      <FooterText exercise={exercise} className="bg-contrast-low pt-2 pb-1" />
     </div>
   )
 }

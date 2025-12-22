@@ -80,12 +80,15 @@ function App() {
     onSquaresToGoChange,
   })
 
-  const percentageOfCompletion = useMemo(() => {
-    return getPercentageOfCompletion({
-      squaresToGo: initialSquaresToGo.length,
-      squaresCompleted: initialSquaresToGo.length - squaresToGo.length,
-    })
-  }, [initialSquaresToGo, squaresToGo])
+
+  const percentageOfCompletion = useMemo(
+    () =>
+      getPercentageOfCompletion({
+        squaresToGo: initialSquaresToGo.length,
+        squaresCompleted: initialSquaresToGo.length - squaresToGo.length,
+      }),
+    [initialSquaresToGo, squaresToGo],
+  )
 
   const onSelectExercise = (exerciseName: string) => {
     setCurrentExercise(EXERCISES_BY_NAME[exerciseName])
@@ -110,8 +113,10 @@ function App() {
   }
 
   const onIllegalAttempt = () => {
-    addTime(PENALIZATION_TIME_IN_MS)
-    incrementIllegalAttemptsCount()
+    if (isPenalizationEnabled && isTimerActive) {
+      addTime(PENALIZATION_TIME_IN_MS)
+      incrementIllegalAttemptsCount()
+    }
   }
 
   return (
@@ -121,7 +126,7 @@ function App() {
         value={currentExerciseName}
         onValueChange={onSelectExercise}
       />
-      <div className="w-full flex items-center justify-center gap-6 py-6 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">
+      <div className="w-full flex items-center justify-center gap-6 py-12 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-8 max-w-[300px]">
           <RulesText exercise={currentExercise} />
           <PenalizationSwitch
