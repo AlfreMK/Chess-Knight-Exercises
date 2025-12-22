@@ -1,21 +1,21 @@
 import { useMemo, useState } from 'react'
+import { useQueryState } from 'nuqs'
+import type { Square } from 'chess.js'
 import { Footer } from '@/components/pages/main/footer'
 import { ChessboardPuzzle } from '@/components/pages/main/chessboard-puzzle'
 import { Header } from '@/components/pages/main/header'
 import { Timer } from '@/components/pages/main/timer'
+import { RulesText } from '@/components/pages/main/rules-text'
+import { PenalizationSwitch } from '@/components/pages/main/penalization-switch'
+import { useTimer } from '@/hooks/useTimer'
 import {
   CHECK_THE_KING_EXERCISES,
   FULL_ROUTE_EXERCISES,
   type Exercise,
 } from '@/exercises'
-import { RulesText } from '@/components/pages/main/rules-text'
-import { PenalizationSwitch } from '@/components/pages/main/penalization-switch'
-import { useTimer } from '@/hooks/useTimer'
 import { useSquaresToGo } from '@/hooks/useSquaresToGo'
-import type { Square } from 'chess.js'
-import { getPercentageOfCompletion } from './lib/chessUtils'
+import { getPercentageOfCompletion } from '@/lib/chessUtils'
 import { usePenalization } from '@/hooks/usePenalization'
-import { useQueryState } from 'nuqs'
 
 const PENALIZATION_TIME_IN_MS = 10000 // 10 seconds
 
@@ -129,7 +129,7 @@ function App() {
         onValueChange={onSelectExercise}
       />
       <div className="w-full flex items-center justify-center gap-6 py-12 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">
-        <div className="flex flex-col items-center justify-center gap-8 max-w-[300px]">
+        <div className="flex flex-col items-center justify-center gap-8 max-w-[300px] mb-4">
           <RulesText exercise={currentExercise} />
           <PenalizationSwitch
             exercise={currentExercise}

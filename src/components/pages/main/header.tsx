@@ -5,6 +5,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export const Header = <TItem extends { label: string; value: string }>({
   items,
@@ -30,6 +32,10 @@ export const Header = <TItem extends { label: string; value: string }>({
           ))}
         </SelectContent>
       </Select>
+      <div className="h-8">
+        <Separator orientation="vertical" />
+      </div>
+      <ThemeToggle />
     </div>
   )
 }
