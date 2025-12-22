@@ -1,5 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
-import { type Square } from 'chess.js'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import type { Exercise } from '@/exercises'
 import { buildFenFromPosition } from '@/lib/chessUtils'
 
@@ -18,20 +17,12 @@ export const useCurrentFen = (exercise: Exercise) => {
   )
   const [currentFen, setCurrentFen] = useState(initialFen)
 
-  const resetFen = () => {
+  const resetFen = useCallback(() => {
     setCurrentFen(initialFen)
-  }
+  }, [initialFen])
 
   useEffect(() => {
     setCurrentFen(initialFen)
   }, [initialFen])
   return { currentFen, setCurrentFen, resetFen }
 }
-
-export type OnSquaresToGoChange = ({
-  prevSquaresToGo,
-  newSquaresToGo,
-}: {
-  prevSquaresToGo: Square[]
-  newSquaresToGo: Square[]
-}) => void

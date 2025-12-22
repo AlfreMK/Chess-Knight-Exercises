@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Chessboard } from 'react-chessboard'
 import { Chess, type Square } from 'chess.js'
 import type { Exercise, PieceType } from '@/exercises'
@@ -8,38 +8,43 @@ import {
   isThereAnyPieceOnSquare,
   isSquareBeingAttackedByOpponent,
 } from '@/lib/chessUtils'
-import { getSquareStyles } from './utils'
+import { useSquareStyles } from './useSquareStyles'
 import { FooterText } from './footer-text'
+import { useCurrentFen } from '@/hooks/useCurrentFen'
 
 export const ChessboardPuzzle = ({
+  hasResetBoard,
   exercise,
-  currentFen,
   squaresToGo,
   onKnightMove,
   onIllegalAttempt,
 }: {
+  hasResetBoard: boolean
   exercise: Exercise
-  currentFen: string
   squaresToGo: Square[]
   onKnightMove: ({
     targetSquare,
-    newFen,
   }: {
     targetSquare: Square
-    newFen: string
   }) => void
   onIllegalAttempt: () => void
 }) => {
+  const { currentFen, setCurrentFen, resetFen } = useCurrentFen(exercise)
+
   const currentKnightSourceSquare = useMemo(() => {
     const chess = new Chess(currentFen, { skipValidation: true })
     const squares = chess.findPiece({ color: exercise.userColor, type: 'n' })
     return squares.length ? squares[0] : undefined
   }, [currentFen, exercise.userColor])
 
-  const squareStyles = useMemo(
-    () => getSquareStyles({ squaresToGo }),
-    [squaresToGo],
-  )
+  const { allSquareStyles, highlightMove, resetAdditionalSquareStyles } = useSquareStyles({ squaresToGo })
+
+  useEffect(() => {
+    if (hasResetBoard) {
+      resetAdditionalSquareStyles()
+      resetFen()
+    }
+  }, [hasResetBoard, resetAdditionalSquareStyles, resetFen])
 
   const onMovingKnight = ({ targetSquare }: { targetSquare: Square }) => {
     if (!currentKnightSourceSquare) {
@@ -71,7 +76,9 @@ export const ChessboardPuzzle = ({
         sourceSquare: currentKnightSourceSquare,
         targetSquare,
       })
-      onKnightMove({ targetSquare, newFen })
+      setCurrentFen(newFen)
+      highlightMove(targetSquare)
+      onKnightMove({ targetSquare })
       return true
     }
     return false
@@ -87,7 +94,7 @@ export const ChessboardPuzzle = ({
     >
       <Chessboard
         options={{
-          squareStyles,
+          squareStyles: allSquareStyles,
           position: currentFen,
           canDragPiece: ({ piece }) => {
             const pieceType = piece.pieceType as PieceType

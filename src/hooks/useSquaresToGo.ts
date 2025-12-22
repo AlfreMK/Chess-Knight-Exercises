@@ -1,7 +1,16 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
-import type { Exercise } from '@/exercises'
+import {
+  isCheckTheKingExercise,
+  SQUARE_ORDER,
+  type Exercise,
+} from '@/exercises'
 import type { Square } from 'chess.js'
-import { getSquaresToGo } from '@/components/pages/main/chessboard-puzzle/utils'
+import {
+  buildFenFromPosition,
+  getSquareByCoord,
+  isSquareBeingAttackedByOpponent,
+  isThereAnyPieceOnSquare,
+} from '@/lib/chessUtils'
 
 /**
  * Hook to manage the squares to go
@@ -78,4 +87,43 @@ export const useSquaresToGo = ({
     removeSquareFromSquaresToGo,
     resetSquaresToGo,
   }
+}
+
+const getSquaresToGo = (exercise: Exercise) => {
+  const fen = buildFenFromPosition(exercise.position)
+  if (isCheckTheKingExercise(exercise)) {
+    return [exercise.squareToGo]
+  }
+  const squares: Square[] = []
+  for (let rank = 0; rank < 8; rank++) {
+    for (let file = 0; file < 8; file++) {
+      const square = getSquareByCoord({ file, rank })
+      if (
+        !isThereAnyPieceOnSquare({ fen, square }) &&
+        !isSquareBeingAttackedByOpponent({
+          fen,
+          square,
+          color: exercise.userColor,
+        })
+      ) {
+        squares.push(square)
+      }
+    }
+  }
+  // Sort squares by file and rank
+  // Order by a1, b1, c1, d1, ..., h1, a2, ...
+  squares.sort((squareA, squareB) => {
+    const fileA = squareA[0]
+    const fileB = squareB[0]
+    const rankA = parseInt(squareA[1])
+    const rankB = parseInt(squareB[1])
+    if (rankA === rankB) {
+      return fileA.charCodeAt(0) - fileB.charCodeAt(0)
+    }
+    return rankA - rankB
+  })
+  if (exercise.squareOrder === SQUARE_ORDER.DESCENDING) {
+    squares.reverse()
+  }
+  return squares
 }

@@ -12,7 +12,6 @@ import { RulesText } from '@/components/pages/main/rules-text'
 import { PenalizationSwitch } from '@/components/pages/main/penalization-switch'
 import { useTimer } from '@/hooks/useTimer'
 import { useSquaresToGo } from '@/hooks/useSquaresToGo'
-import { useCurrentFen } from '@/hooks/useCurrentFen'
 import type { Square } from 'chess.js'
 import { getPercentageOfCompletion } from './lib/chessUtils'
 import { usePenalization } from '@/hooks/usePenalization'
@@ -36,6 +35,9 @@ const initialExercise = EXERCISES[0]
 function App() {
   const [currentExercise, setCurrentExercise] =
     useState<Exercise>(initialExercise)
+
+  const [hasResetExercise, setHasResetExercise] = useState(false)
+
   const currentExerciseName = useMemo(
     () => currentExercise.name,
     [currentExercise],
@@ -48,8 +50,6 @@ function App() {
     resetIllegalAttemptsCount,
     incrementIllegalAttemptsCount,
   } = usePenalization()
-
-  const { currentFen, setCurrentFen, resetFen } = useCurrentFen(currentExercise)
 
   const {
     timeInMs,
@@ -92,16 +92,12 @@ function App() {
     resetTimer()
   }
 
-  const onKnightMove = ({
-    targetSquare,
-    newFen,
-  }: {
-    targetSquare: Square
-    newFen: string
-  }) => {
-    setCurrentFen(newFen)
+  const onKnightMove = ({ targetSquare }: { targetSquare: Square }) => {
     removeSquareFromSquaresToGo(targetSquare)
-    if (!isTimerActive) {
+    if (hasResetExercise) {
+      setHasResetExercise(false)
+    }
+    if (!isTimerActive && squaresToGo.length > 0) {
       startTimer()
     }
   }
@@ -109,8 +105,8 @@ function App() {
   const onReset = () => {
     resetTimer()
     resetSquaresToGo()
-    resetFen()
     resetIllegalAttemptsCount()
+    setHasResetExercise(true)
   }
 
   const onIllegalAttempt = () => {
@@ -142,8 +138,8 @@ function App() {
           />
         </div>
         <ChessboardPuzzle
+          hasResetBoard={hasResetExercise}
           exercise={currentExercise}
-          currentFen={currentFen}
           squaresToGo={squaresToGo}
           onKnightMove={onKnightMove}
           onIllegalAttempt={onIllegalAttempt}
