@@ -16,8 +16,8 @@ export function AnimatedCircularProgressBar({
   min = 0,
   value = 0,
   size = 160,
-  gaugePrimaryColor = 'primary',
-  gaugeSecondaryColor = 'contrast-low',
+  gaugePrimaryColor = 'var(--color-primary)',
+  gaugeSecondaryColor = 'var(--color-contrast-low)',
   className,
   children,
 }: AnimatedCircularProgressBarProps) {
@@ -64,7 +64,7 @@ export function AnimatedCircularProgressBar({
             className="opacity-100"
             style={
               {
-                stroke: `var(--color-${gaugeSecondaryColor})`,
+                stroke: gaugeSecondaryColor,
                 "--stroke-percent": 90 - currentPercent,
                 "--offset-factor-secondary": "calc(1 - var(--offset-factor))",
                 strokeDasharray:
@@ -89,7 +89,7 @@ export function AnimatedCircularProgressBar({
           className="opacity-100"
           style={
             {
-              stroke: `var(--color-${gaugePrimaryColor})`,
+              stroke: gaugePrimaryColor,
               "--stroke-percent": currentPercent,
               strokeDasharray:
                 "calc(var(--stroke-percent) * var(--percent-to-px)) var(--circumference)",

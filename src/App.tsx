@@ -121,11 +121,13 @@ function App() {
     if (isPenalizationEnabled && isTimerActive) {
       addTime(PENALIZATION_TIME_IN_MS)
       setColorDuringTime({
-        color: 'secondary',
+        color: 'var(--color-secondary)',
         timeInMs: 300,
       })
     }
-    incrementIllegalAttemptsCount()
+    if (isTimerActive) {
+      incrementIllegalAttemptsCount()
+    }
   }
 
   return (
