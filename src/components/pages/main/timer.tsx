@@ -4,11 +4,13 @@ import { useMemo } from 'react'
 
 export const Timer = ({
   timeInMs,
+  secondaryColor,
   percentageOfCompletion,
   reset,
 }: {
   timeInMs: number
   percentageOfCompletion: number
+  secondaryColor?: string
   reset: () => void
 }) => {
   const isButtonDisabled = useMemo(() => timeInMs === 0, [timeInMs])
@@ -16,6 +18,7 @@ export const Timer = ({
     <AnimatedCircularProgressBar
       value={percentageOfCompletion}
       size={200}
+      gaugeSecondaryColor={secondaryColor}
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <div>{formatTimeForDisplay(timeInMs)}</div>

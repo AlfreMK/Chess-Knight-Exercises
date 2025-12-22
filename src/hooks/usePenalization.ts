@@ -8,9 +8,7 @@ export const usePenalization = () => {
   }
 
   const incrementIllegalAttemptsCount = () => {
-    if (isPenalizationEnabled) {
-      setIllegalAttemptsCount((prev) => prev + 1)
-    }
+    setIllegalAttemptsCount((prev) => prev + 1)
   }
 
   return {

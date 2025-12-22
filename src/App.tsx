@@ -16,6 +16,7 @@ import {
 import { useSquaresToGo } from '@/hooks/useSquaresToGo'
 import { getPercentageOfCompletion } from '@/lib/chessUtils'
 import { usePenalization } from '@/hooks/usePenalization'
+import { useSetColorTemporarily } from '@/hooks/useSetColorTemporarily'
 
 const PENALIZATION_TIME_IN_MS = 10000 // 10 seconds
 
@@ -45,6 +46,8 @@ function App() {
   )
 
   const [hasResetExercise, setHasResetExercise] = useState(false)
+
+  const { temporalColor, setColorDuringTime } = useSetColorTemporarily()
 
   const {
     isPenalizationEnabled,
@@ -117,8 +120,12 @@ function App() {
   const onIllegalAttempt = () => {
     if (isPenalizationEnabled && isTimerActive) {
       addTime(PENALIZATION_TIME_IN_MS)
-      incrementIllegalAttemptsCount()
+      setColorDuringTime({
+        color: 'secondary',
+        timeInMs: 300,
+      })
     }
+    incrementIllegalAttemptsCount()
   }
 
   return (
@@ -141,6 +148,7 @@ function App() {
           <Timer
             timeInMs={timeInMs}
             percentageOfCompletion={percentageOfCompletion}
+            secondaryColor={temporalColor}
             reset={onReset}
           />
         </div>

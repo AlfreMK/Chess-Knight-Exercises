@@ -45,14 +45,10 @@ export const PenalizationSwitch = ({
           disabled={isSwitchDisabled}
         />
       </div>
-      {
-        isPenalizationEnabled && (
-          <div className="bg-contrast-lowest rounded-b-md p-3 text-sm">
-            {illegalAttemptsCount}{' '}
-            <span className="font-bold text-secondary">ILLEGAL ATTEMPTS</span>
-          </div>
-        )
-      }
+      <div className="bg-contrast-lowest rounded-b-md p-3 text-sm">
+        {illegalAttemptsCount}{' '}
+        <span className="font-bold text-secondary">ILLEGAL ATTEMPTS</span>
+      </div>
     </div>
   )
 }
