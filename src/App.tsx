@@ -15,33 +15,36 @@ import { useSquaresToGo } from '@/hooks/useSquaresToGo'
 import type { Square } from 'chess.js'
 import { getPercentageOfCompletion } from './lib/chessUtils'
 import { usePenalization } from '@/hooks/usePenalization'
+import { useQueryState } from 'nuqs'
 
 const PENALIZATION_TIME_IN_MS = 10000 // 10 seconds
 
 const EXERCISES = [...CHECK_THE_KING_EXERCISES, ...FULL_ROUTE_EXERCISES]
 
-const EXERCISES_BY_NAME = EXERCISES.reduce((acc, exercise) => {
-  acc[exercise.name] = exercise
+const EXERCISES_BY_ID = EXERCISES.reduce((acc, exercise) => {
+  acc[exercise.id] = exercise
   return acc
-}, {} as { [exerciseName: string]: Exercise })
+}, {} as { [exerciseId: string]: Exercise })
 
 const SELECT_ITEMS = EXERCISES.map((exercise) => ({
   label: exercise.name,
-  value: exercise.name as string,
+  value: exercise.id as string,
 }))
 
 const initialExercise = EXERCISES[0]
 
 function App() {
-  const [currentExercise, setCurrentExercise] =
-    useState<Exercise>(initialExercise)
+  const [currentExerciseId, setCurrentExerciseId] = useQueryState(
+    'exercise',
+    { defaultValue: initialExercise.id },
+  )
+
+  const currentExercise = useMemo(
+    () => EXERCISES_BY_ID[currentExerciseId],
+    [currentExerciseId],
+  )
 
   const [hasResetExercise, setHasResetExercise] = useState(false)
-
-  const currentExerciseName = useMemo(
-    () => currentExercise.name,
-    [currentExercise],
-  )
 
   const {
     isPenalizationEnabled,
@@ -80,7 +83,6 @@ function App() {
     onSquaresToGoChange,
   })
 
-
   const percentageOfCompletion = useMemo(
     () =>
       getPercentageOfCompletion({
@@ -90,8 +92,8 @@ function App() {
     [initialSquaresToGo, squaresToGo],
   )
 
-  const onSelectExercise = (exerciseName: string) => {
-    setCurrentExercise(EXERCISES_BY_NAME[exerciseName])
+  const onSelectExercise = (exerciseId: string) => {
+    setCurrentExerciseId(exerciseId)
     resetTimer()
   }
 
@@ -123,7 +125,7 @@ function App() {
     <div className="flex min-h-svh flex-col items-center p-6">
       <Header
         items={SELECT_ITEMS}
-        value={currentExerciseName}
+        value={currentExerciseId}
         onValueChange={onSelectExercise}
       />
       <div className="w-full flex items-center justify-center gap-6 py-12 flex-wrap sm:flex-nowrap flex-col-reverse sm:flex-row">

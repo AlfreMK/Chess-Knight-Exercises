@@ -19,6 +19,7 @@ export type PieceType = `${Color}${Uppercase<PieceSymbol>}`
 export type Position = Partial<Record<Square, PieceType>>
 
 type BaseExercise = {
+  id: string
   name: string
   position: Position
   userColor: Color
@@ -59,6 +60,7 @@ export const isCheckTheKingExercise = (
 export const FULL_ROUTE_EXERCISES = [
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
+    id: 'full-route-1',
     name: 'Full Route 1',
     userColor: 'w',
     position: {
@@ -74,6 +76,7 @@ export const FULL_ROUTE_EXERCISES = [
   },
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
+    id: 'full-route-2',
     name: 'Full Route 2',
     userColor: 'w',
     position: {
@@ -86,6 +89,7 @@ export const FULL_ROUTE_EXERCISES = [
   },
   {
     type: EXERCISE_TYPES.FULL_ROUTE,
+    id: 'full-route-3',
     name: 'Full Route 3',
     userColor: 'w',
     position: {
@@ -106,6 +110,7 @@ export const FULL_ROUTE_EXERCISES = [
 export const CHECK_THE_KING_EXERCISES = [
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
+    id: 'check-the-king-1',
     name: 'Check the King 1',
     userColor: 'w',
     position: {
@@ -148,6 +153,7 @@ export const CHECK_THE_KING_EXERCISES = [
   },
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
+    id: 'check-the-king-2',
     name: 'Check the King 2',
     userColor: 'w',
     position: {
@@ -190,6 +196,7 @@ export const CHECK_THE_KING_EXERCISES = [
   },
   {
     type: EXERCISE_TYPES.CHECK_THE_KING,
+    id: 'check-the-king-3',
     name: 'Check the King 3',
     userColor: 'w',
     position: {
