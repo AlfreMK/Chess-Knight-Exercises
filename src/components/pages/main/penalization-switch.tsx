@@ -38,7 +38,7 @@ export const PenalizationSwitch = ({
             </p>
           </TooltipContent>
         </Tooltip>
-        <span>Penalization Mode</span>
+        <span className="font-medium">Penalization Mode</span>
         <Switch
           checked={isPenalizationEnabled}
           onCheckedChange={onPenalizationEnabledChange}
